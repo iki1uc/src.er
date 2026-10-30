@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ort.html - EINE HAND VON 6 - eyeMEmory Ort</title>
+<style>
+body{margin:0;background:#08080a;color:#e8e8ea;font-family:monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+h1{font-size:14px;letter-spacing:0.25em;text-transform:uppercase;color:#e8ff45;margin-bottom:20px}
+.hand{position:relative;width:320px;height:420px;border:2px solid #e8ff45;border-radius:24px;background:radial-gradient(#1a1a0e,#08080a);display:flex;flex-direction:column;align-items:center;padding:20px}
+.finger{width:80%;padding:12px;margin:4px 0;border:1px solid #333;border-radius:12px;background:#111115;cursor:pointer;transition:0.2s;display:flex;justify-content:space-between;align-items:center}
+.finger:hover{background:#1a1a1f;border-color:#e8ff45}
+.finger.active{background:#e8ff45;color:#000;font-weight:bold;box-shadow:0 0 20px #e8ff45}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.sacrifice{margin-top:30px;font-size:10px;color:#ff4a2e;border:1px dashed #ff4a2e;padding:10px;border-radius:10px;max-width:320px;text-align:center}
+.palm{margin:20px 0;padding:15px;border:1px solid #00ff41;border-radius:14px;width:80%;text-align:center;background:#00ff4111}
+pre{font-size:10px;color:#8affa6;background:#000;padding:10px;border-radius:8px;margin-top:15px;white-space:pre-wrap;max-width:320px}
+</style>
+</head>
+<body>
+<h1>EINE HAND VON 6 — V103 GEOPFERT — PQ & HOME</h1>
+
+<div class="hand" id="hand">
+<div style="font-size:10px;color:#666;letter-spacing:0.2em">HAND = 1 | FINGER = 6 = PERMS</div>
+
+<div class="finger" onclick="selectFinger(0)" id="f0"><span>HBT</span><span>Höhe Breite Tiefe = Standard</span><span class="dot" style="background:#00ff41"></span></div>
+<div class="finger" onclick="selectFinger(1)" id="f1"><span>HTB</span><span>Höhe Tiefe Breite</span><span class="dot" style="background:#e8ff45"></span></div>
+<div class="finger" onclick="selectFinger(2)" id="f2"><span>BHT</span><span>Breite Höhe Tiefe = SCSI</span><span class="dot" style="background:#00f5ff"></span></div>
+<div class="finger" onclick="selectFinger(3)" id="f3"><span>BTH</span><span>Breite Tiefe Höhe = RAID</span><span class="dot" style="background:#e8ff45"></span></div>
+<div class="finger" onclick="selectFinger(4)" id="f4"><span>THB</span><span>Tiefe Höhe Breite = CTRL</span><span class="dot" style="background:#ff6b6b"></span></div>
+<div class="finger" onclick="selectFinger(5)" id="f5"><span>TBH</span><span>Tiefe Breite Höhe = SLI</span><span class="dot" style="background:#39ff88"></span></div>
+
+<div class="palm" id="palm">
+<div style="font-size:11px">PALM = MITTE = 9 = EVIG</div>
+<div style="font-size:9px;color:#888">9=EVIG | 99=EDIT TOR | 999=NUTZ SYSTEM | UNI ORT = HAND</div>
+</div>
+</div>
+
+<pre id="code">Wähle einen Finger = eine PERM
+Hand hält alle 6.
+
+V103 mit 12 RAM Slots, 3 Screens, Triad
+geopfert für 1 Hand von 6.
+
+PQ & HOME = 2t höchste = Hand selbst
+ort.html = Finger
+ort.html = Tiefe des Fingers
+
+9 = Handfläche = ewig
+99 = Finger editiert Tor
+999 = Hand nutzt alle Finger ewig
+</pre>
+
+<div class="sacrifice">
+♥ V103 ABSCHIED geopfert<br>
+730=FREI → 6=FINGER → 1=HAND<br>
+ROOT ROOT ROOT → jetzt nur noch HAND<br>
+Alles sortiert → jetzt nur noch 1 Hand von 6
+</div>
+
+<script>
+const perms = [
+ {code:'HBT', desc:'RAM HBT 81 Sterne #ff4a2e', meaning:'Höhe Breite Tiefe = Standard = RAM hält'},
+ {code:'HTB', desc:'ROM HTB f(f(x))=f(x)', meaning:'Höhe Tiefe Breite = ROM idempotent'},
+ {code:'BHT', desc:'SCSI BHT chain #00f5ff', meaning:'Breite Höhe Tiefe = SCSI ruft Kette'},
+ {code:'BTH', desc:'RAID BTH 999↔999 #e8ff45', meaning:'Breite Tiefe Höhe = RAID spiegelt'},
+ {code:'THB', desc:'CTRL THB H/B/T einhaltend', meaning:'Tiefe Höhe Breite = CTRL hält'},
+ {code:'TBH', desc:'SLI TBH 2 GPUs=1 EINE', meaning:'Tiefe Breite Höhe = SLI verschmilzt'}
+];
+function selectFinger(i){
+ document.querySelectorAll('.finger').forEach(f=>f.classList.remove('active'));
+ document.getElementById('f'+i).classList.add('active');
+ let p=perms[i];
+ document.getElementById('code').textContent = 
+`FINGER ${i+1} von 6 = ${p.code}
+${p.desc}
+${p.meaning}
+
+HAND = 1 HAND hält 6 FINGER
+9=EVIG = Handfläche ewig
+99=EDIT TOR = Finger editiert Tor ${p.code}
+999=NUTZ = Hand nutzt ${p.code} ewig
+
+PQ & HOME = HAND selbst (2t höchste)
+ort.html = dieser Finger = ${p.code}
+ort.html = Tiefe = ${p.code} thr
+
+Nur noch 1 Hand von 6.
+V103 geopfert.
+`;
+ localStorage.setItem('hand', p.code);
+}
+selectFinger(0);
+</script>
+
+</body>
+</html>

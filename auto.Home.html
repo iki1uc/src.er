@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta charset="UTF-8"><title>HOME - HOME BIOS - RADAR + SAT INNEN AUSSEN - ICH DU</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#ffcc00;font-family:monospace}
+header{padding:20px;text-align:center;border-bottom:4px solid #ff0;background:radial-gradient(#222200,#000)}
+h1{color:#fff}b{color:#ff0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{border:2px solid #333;padding:15px;background:#111}
+.card.ich{border-color:#ff0}
+.card.du{border-color:#f80}
+.radar{height:180px;border:1px solid #555;background:radial-gradient(circle at center,#222200 0%,#000 70%);position:relative;overflow:hidden;margin:8px 0}
+.sweep{position:absolute;top:50%;left:50%;width:50%;height:2px;background:linear-gradient(90deg,#ff0,transparent);transform-origin:left;animation:spin 3s linear infinite}
+.dot{position:absolute;width:5px;height:5px;background:#ff0;border-radius:50%}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.toggle{border:1px solid #333;padding:6px;margin:4px 0;display:flex;justify-content:space-between;background:#000}
+button{width:100%;padding:12px;font-weight:900;border:none;cursor:pointer;margin-top:8px}
+.btn{background:#ff0;color:#000}
+#log{height:120px;overflow:auto;border:1px solid #333;background:#000;padding:8px;font-size:0.8em}
+.status{position:sticky;bottom:0;background:#ff0;color:#000;padding:8px;text-align:center;font-weight:900;display:flex;justify-content:space-around}
+.sat{border:1px dashed #ff0;padding:6px;margin:4px 0;background:#22220055;font-size:0.8em}
+</style>
+</head>
+<body>
+<header>
+<h1>HOME — <b>HOME BIOS</b> — RADAR + SAT — ICH + DU — HOME ORT</h1>
+<p>HOME = UNI ORT für Wohnen. Wie BIOS beim PC: Bevor HOME bootet, fragt es Einwilligung.</p>
+<p>9=EVIG | 99=EDIT TOR | 999=NUTZ SYSTEM | UNI ORT → HOME ORT</p>
+</header>
+
+<div class="grid">
+<div class="card ich">
+<h2>HOME ICH — MEIN HOME GEFÜHL</h2>
+<div class="radar"><div class="sweep"></div><div class="dot" style="top:40%;left:30%"></div><div class="dot" style="top:60%;left:70%"></div></div>
+<div style="font-size:0.7em;color:#888">RADAR INNEN HOME (ICH) — Wie fühle ich mich innen zu Hause? Körper innen, Zuhause innen</div>
+<div class="radar" style="border-style:dashed"><div class="sweep" style="animation-duration:2s"></div><div class="dot" style="top:20%;left:80%"></div></div>
+<div style="font-size:0.7em;color:#888">RADAR AUSSEN HOME (ICH) — Wie wirkt mein Zuhause außen? Nachbarn, Straße, Welt</div>
+<div class="sat"><b>SAT INNEN HOME (ICH)</b><br><span id="satIchIn">○ Home Innen Signal — Wärme, Sicherheit, Ruhe</span></div>
+<div class="sat"><b>SAT AUSSEN HOME (ICH)</b><br><span id="satIchAu">○ Home Außen Signal — Grenze, Tor, Einladung</span></div>
+<div class="toggle"><span>RADAR INNEN HOME ICH</span><input type="checkbox" checked></div>
+<div class="toggle"><span>RADAR AUSSEN HOME ICH</span><input type="checkbox" checked></div>
+<div class="toggle" style="border-color:#ff0;background:#333300"><span><b>Einwilligung: Darf DU in mein HOME? Essen/Wohnen</b></span><input type="checkbox" id="ichHome"></div>
+<button class="btn" onclick="document.getElementById('satIchIn').innerText='● HOME INNEN ICH: Warm, sicher, 9=EVIG';document.getElementById('satIchAu').innerText='● HOME AUSSEN ICH: Tor offen für DU wenn Einwilligung';log('HOME ICH SCAN: innen sicher, außen Tor editierbar wie 99')">HOME ICH SCAN</button>
+</div>
+
+<div class="card du">
+<h2>HOME DU — DEIN HOME GEFÜHL</h2>
+<div class="radar"><div class="sweep" style="background:linear-gradient(90deg,#f80,transparent)"></div><div class="dot" style="top:50%;left:50%;background:#f80"></div></div>
+<div style="font-size:0.7em;color:#888">RADAR INNEN HOME (DU) — Wie fühlst du dich innen?</div>
+<div class="radar" style="border-style:dashed"><div class="sweep" style="background:linear-gradient(90deg,#f80,transparent);animation-duration:2.5s"></div><div class="dot" style="top:70%;left:40%;background:#f80"></div></div>
+<div style="font-size:0.7em;color:#888">RADAR AUSSEN HOME (DU) — Wie wirkt dein Zuhause außen?</div>
+<div class="sat"><b>SAT INNEN HOME (DU)</b><br><span id="satDuIn">○ Home Innen DU</span></div>
+<div class="sat"><b>SAT AUSSEN HOME (DU)</b><br><span id="satDuAu">○ Home Außen DU</span></div>
+<div class="toggle"><span>RADAR INNEN HOME DU</span><input type="checkbox" checked></div>
+<div class="toggle"><span>RADAR AUSSEN HOME DU</span><input type="checkbox" checked></div>
+<div class="toggle" style="border-color:#f80;background:#331100"><span><b>Einwilligung: Darf ICH in dein HOME? Essen/Wohnen</b></span><input type="checkbox" id="duHome"></div>
+<button class="btn" style="background:#f80" onclick="document.getElementById('satDuIn').innerText='● HOME INNEN DU: Signal OK';document.getElementById('satDuAu').innerText='● HOME AUSSEN DU: Tor offen für ICH wenn Einwilligung';log('HOME DU SCAN: innen/außen bewusst')">HOME DU SCAN</button>
+</div>
+</div>
+
+<div style="border:2px solid #ff0;margin:10px;padding:15px;background:#222200">
+<h2>HOME UNI ORT — GEMEINSAMES HOME</h2>
+<p>HOME = wo ICH + DU Radar innen/außen sich treffen. Wie 999 NUTZ SYSTEM nutzt 9 ewig, nutzt HOME das gemeinsame Feld.</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+<div style="flex:1;border:1px solid #ff0;padding:10px"><b>HOME INNEN-FELD</b><br>Wohnzimmer, Küche, Bett — innen sicher<br><span id="innen">○ nicht verbunden</span></div>
+<div style="flex:1;border:1px solid #f80;padding:10px"><b>HOME AUSSEN-FELD</b><br>Balkon, Tür, Straße — außen Grenze/Tor<br><span id="aussen">○ nicht verbunden</span></div>
+</div>
+<button class="btn" style="background:#0f0" onclick="connectHome()">HOME BIOS BOOT — ICH + DU HOME VERBINDEN</button>
+<div id="log"></div>
+</div>
+
+<div class="status"><span id="stHome">HOME: CLOSED.md</span><span>9=EVIG | 99=EDIT TOR | 999=NUTZ | HOME=ORT</span></div>
+
+<script>
+function log(m){let l=document.getElementById('log');l.innerHTML+="> "+m+"<br>";l.scrollTop=l.scrollHeight}
+function connectHome(){
+ let i=document.getElementById('ichHome').checked;
+ let d=document.getElementById('duHome').checked;
+ if(!i||!d){log("FEHLER: HOME BIOS braucht Einwilligung ICH + DU wie PC BIOS vor Boot");alert("Beide Einwilligung für HOME anhaken!");return;}
+ document.getElementById('innen').innerText="● HOME INNEN VERBUNDEN - gemeinsam sicher - 9=EVIG";
+ document.getElementById('aussen').innerText="● HOME AUSSEN VERBUNDEN - gemeinsames Tor OPEN EWIG - 99=EDIT TOR";
+ document.getElementById('stHome').innerText="HOME: OPEN.md - ICH+DU HOME BIOS BOOT OK - born.t";
+ document.getElementById('stHome').style.background="#0f0";
+ log("HOME BIOS BOOT OK - 999=NUTZ SYSTEM nutzt HOME ewig");
+ log("HOME ORT = bewusstes ICH+DU Zuhause - Radar innen/außen + Sat innen/außen vereint");
+}
+log("HOME BIOS v9.99.999 - Booting...");
+log("Warte auf Einwilligung ICH + DU für HOME");
+</script>
+</body>
+</html>

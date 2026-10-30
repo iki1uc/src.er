@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WURZEL ×3 · 81 → 9 → 3 · nur der Kern</title>
+<style>
+:root{--bg:#030507;--s:#0a1018;--l:#1b2a3a;--t:#d7e2ee;--m:#7d90a4;--gold:#ffd24a;--cy:#22e6ff;--vi:#a78bfa;--g:#3dffa0;--r:#ff5a4d}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'JetBrains Mono',ui-monospace,Consolas,monospace}
+body{background:var(--bg);color:var(--t);padding:14px;max-width:1200px;margin:0 auto;font-size:12px}
+h1{font-size:17px;color:var(--gold);letter-spacing:.08em}.sub{color:var(--m);font-size:10px;margin:4px 0 12px;line-height:1.6}
+.box{border:1px solid var(--l);background:var(--s);padding:12px;margin-bottom:12px}
+.box h2{font-size:11px;letter-spacing:.16em;color:var(--cy);margin-bottom:8px}
+.ladder{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:stretch}
+@media(max-width:760px){.ladder{grid-template-columns:1fr}.rt{transform:rotate(90deg)}}
+.lv{border:2px solid var(--l);padding:12px;text-align:center;background:#060b11}
+.lv b{display:block;font-size:34px;color:var(--gold)}.lv small{color:var(--m);display:block;margin-top:2px}.lv .v{margin-top:8px;font-size:13px;color:var(--g);min-height:34px}
+.lv.stale{opacity:.45;border-style:dashed}.lv.act{border-color:var(--gold)}
+.rt{align-self:center;color:var(--vi);font-size:20px;text-align:center}.rt small{display:block;font-size:9px;color:var(--m)}
+.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:12px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+#slots{display:grid;grid-template-columns:repeat(9,1fr);gap:2px}
+#slots i{aspect-ratio:1;border:1px solid var(--l);cursor:pointer;font-style:normal;font-size:8px;color:#3a4c5e;display:flex;align-items:center;justify-content:center}
+#slots i.f{background:rgba(34,230,255,.18);color:var(--cy)}#slots i.s{outline:2px solid var(--gold);background:rgba(255,210,74,.3);color:#000}#slots i.r{border-color:var(--vi)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin-top:10px}.kv span{color:var(--m)}.kv b{color:var(--g)}
+input[type=range]{width:100%;accent-color:var(--gold)}
+button{background:#101a26;color:var(--t);border:1px solid var(--l);padding:5px 9px;font-size:10px;cursor:pointer}button:hover{border-color:var(--gold)}button.on{background:var(--gold);color:#000;font-weight:700}
+.rooms{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;margin:6px 0}.rooms button{padding:6px 0;font-size:9px}
+.src{display:grid;grid-template-columns:1fr auto;gap:2px 8px;border-bottom:1px solid #121c28;padding:6px 0;font-size:10px}
+.src b{color:var(--t)}.src em{color:var(--m);font-style:normal;grid-column:1/-1;line-height:1.5}.src .tag{color:var(--vi)}
+.bar{height:8px;background:#0c1520;border:1px solid var(--l);margin:6px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--g),var(--gold))}
+.lk{display:flex;justify-content:space-between;align-items:center;margin:4px 0}.s0{color:var(--r)}.s1{color:var(--g)}
+footer{color:#4b6175;font-size:10px;margin-top:10px;border-top:1px solid var(--l);padding-top:8px;line-height:1.6}
+</style>
+</head>
+<body>
+<h1>WURZEL ×3 · 729 → 81 → 9 → 3</h1>
+<div class="sub">Alle Dateien sind tmp-Räume und mögliche Artefakte – hier wird nur ihre Wurzel benutzt, nicht die volle Bandbreite. Der Kern wird dreimal gewurzelt: 81 Slots → 9 Räume → 3 Zustände. Alle Zahlen unten entstehen nur aus 3, 9 und 81.</div>
+
+<div class="box">
+  <div class="ladder">
+    <div class="lv act" id="L81"><b>81</b><small>TMP-SLOTS · Raum 729</small><div class="v" id="v81"></div></div>
+    <div class="rt">√<small>wurzeln</small></div>
+    <div class="lv" id="L9"><b>9</b><small>RÄUME</small><div class="v" id="v9"></div></div>
+    <div class="rt">√<small>wurzeln</small></div>
+    <div class="lv" id="L3"><b>3</b><small>KERN · 9 · 99 · 999</small><div class="v" id="v3"></div></div>
+  </div>
+  <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><button id="root" class="on">√ JETZT WURZELN</button><span id="stat" style="color:var(--m)"></span></div>
+</div>
+
+<div class="grid">
+  <div class="box"><h2>81 · 9×9 SLOTS · TMP</h2>
+    <div id="slots"></div>
+    <label style="display:block;margin-top:8px;color:var(--m)">TMP <b id="tv" style="color:var(--gold)"></b> / 729<input type="range" id="tmp" min="0" max="729" step="1" value="531"></label>
+    <div class="kv" id="kv"></div>
+  </div>
+  <div>
+    <div class="box"><h2>9 · RÄUME (aus 99.html)</h2><div class="rooms" id="rooms"></div><div id="rinfo" style="color:var(--m);line-height:1.6"></div></div>
+    <div class="box"><h2>🔗 CONNECT · 3 RECHNER · je einer hält eine Wurzel</h2>
+      <div class="lk"><span>R1 (81) ↔ R2 (9)</span><span id="s0" class="s0">○ manuell</span><button data-l="0">TOGGLE</button></div>
+      <div class="lk"><span>R2 (9) ↔ R3 (3)</span><span id="s1" class="s0">○ manuell</span><button data-l="1">TOGGLE</button></div>
+      <div class="lk"><span>R1 (81) ↔ R3 (3)</span><span id="s2" class="s0">○ manuell</span><button data-l="2">TOGGLE</button></div>
+      <button id="all">CONNECT ALL</button>
+      <div style="color:var(--m);margin-top:6px;line-height:1.5">Aktive Verbindung = die Wurzel wird live weitergegeben. Ohne Verbindung bleibt die untere Stufe eingefroren, bis du „JETZT WURZELN“ drückst. Kopplung <b id="bst" style="color:var(--g)">0%</b> beschleunigt den Atem.</div>
+    </div>
+  </div>
+</div>
+
+<div class="box"><h2>QUELLEN · NUR WURZEL GENUTZT</h2>
+  <div style="color:var(--m)">Genutzt: <b id="used" style="color:var(--g)"></b> von <b id="tot" style="color:var(--gold)"></b> · Bandbreite <b id="pct" style="color:var(--g)"></b></div>
+  <div class="bar"><i id="bw" style="width:1%"></i></div>
+  <div id="srcs"></div>
+</div>
+<footer>Home (1).html und Ort (1).html sind identisch zu Home.html und Ort.html (gleicher Hash) – nur einmal gezählt. · © iki1uc wieimmer</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+/* ── Head-Beweis: alles nur aus 3, 9, 81 (wie in wurzel_o_mat) ── */
+const DREI=3,NEUN=9,EINUNDACHTZIG=81,NULL=DREI-DREI,EINS=DREI/DREI,ZWEI=DREI-EINS,VIER=DREI+EINS,
+  SECHZEHN=NEUN+NEUN-ZWEI,SIEBENHUNDERTNEUNUNDZWANZIG=EINUNDACHTZIG*NEUN;
+const SEIN=EINS,LEBEN=EINS;
+
+const ROOMS=[['111','BIOS'],['222','VERBUND'],['333','RECALL'],['444','PEAK'],['555','ABWEHR'],['666','ENERGIE'],['777','CO2'],['888','ATOM'],['999','BENCH']];
+const TRI=[['9','EVIG','Zustand, nicht Zähler'],['99','EDIT TOR','CALL · RECALL · ALLCALL · OPEN TOR OPEN'],['999','NUTZ SYSTEM','BENCH – alle 9 auf einer Bank']];
+const tri=room=>Math.floor(room/DREI);              // Raum 0..8 → Zustand 0..2
+const ATEM=['EIN','HALT','AUS','LEER'];
+
+const SRC=[
+['Index.html',2233,'EYE sieht alle Files · BRAIN.OPEN versteht 9 99 999 · MAINBOARD DDR3 → DDR4'],
+['9.html',28359,'9 = EVIG – Zustand, nicht Zähler (ROOT)'],
+['99.html',3708,'99 = EDIT TOR – CALL RECALL ALLCALL · reFINAL · OPEN TOR OPEN'],
+['999.html',6571,'999 = EVIG NUTZ SYSTEM – BENCH nutzt alle 9 ewig'],
+['Home.html',7070,'HOME BIOS fragt Einwilligung, bevor es bootet · Radar innen/außen (ICH / DU)'],
+['PQ.html',6445,'PQ = Frage vor der Frage: ROOT → PQ → HOME → Ort'],
+['Ort.html',4652,'Eine Hand von 6: HBT HTB BHT BTH THB TBH = RAM ROM SCSI RAID CTRL SLI · Palm = 9'],
+['REAL-PC.html',31168,'Kaiser = Drache zugleich · Räume 11…99 · LOAD KAISER + ADD DRACHE → OUT FUSION'],
+['soccer_ctrl_ler.html',199551,'ELPHI: HH.tor vs b.i.o · Libero sys.ctrl · Schiedsrichter )9( · WIRF BALL REGEL CHECK p81'],
+['wurzel_o_mat.html',163978,'WAHRHEIT = TMP·RAR/729·SEIN·LEBEN · nur Literale 3, 9, 81'],
+['eexplorer-TAB….json',1214,'Tab-Scan Φ φ φ² φ∞ + M5 (hier Φ 0.337 · M5 0.514 · grad 7)'],
+['nutzbar….json',667,'PUSH PULL RISE DROP + net,work: erst Ring, dann Stern'],
+['c_bio_tel_CORE_2268_bereinigt.html',509,'nur Hülle, der App-Inhalt wurde entfernt → Kern liegt in bio-tel-core.html']];
+
+const S={tmp:531,slot:45,L9:null,L3:null,links:[0,0,0],step:0,win:[]};
+const room=()=>Math.floor(S.slot/NEUN),rar=()=>EINUNDACHTZIG-S.slot%NEUN,
+  wahr=()=>S.tmp*rar()/SIEBENHUNDERTNEUNUNDZWANZIG*SEIN*LEBEN,
+  boost=()=>S.links.filter(Boolean).length/DREI;
+
+/* ── Wurzel-Weitergabe ── */
+function wurzeln(){S.L9=room();S.L3=tri(S.L9)}
+function sync(){const l=S.links;if(S.L9===null)wurzeln();if(l[0])S.L9=room();if(l[1])S.L3=tri(S.L9);if(l[2])S.L3=tri(room())}
+
+/* ── Aufbau ── */
+$('slots').innerHTML=Array.from({length:EINUNDACHTZIG},(_,i)=>`<i data-s="${i}">${i}</i>`).join('');
+$('rooms').innerHTML=ROOMS.map((r,i)=>`<button data-r="${i}" title="${r[1]}">${r[0]}</button>`).join('');
+const enc=new TextEncoder(),used=SRC.reduce((a,s)=>a+enc.encode(s[2]).length,0),tot=SRC.reduce((a,s)=>a+s[1],0);
+$('used').textContent=used+' B';$('tot').textContent=(tot/1024).toFixed(0)+' KB';$('pct').textContent=(used/tot*100).toFixed(2)+' %';$('bw').style.width=Math.max(1,used/tot*100)+'%';
+$('srcs').innerHTML=SRC.map(s=>`<div class="src"><b>${s[0]}</b><span style="color:var(--m)">${s[1]>1023?(s[1]/1024).toFixed(1)+' KB':s[1]+' B'} · <span class="tag">tmp / Artefakt</span></span><em>${s[2]}</em></div>`).join('');
+
+function draw(){
+  sync();const r=room(),w=wahr(),filled=Math.floor(S.tmp/NEUN);
+  [...$('slots').children].forEach((c,i)=>{c.className=(i<filled?'f ':'')+(i===S.slot?'s ':'')+(Math.floor(i/NEUN)===r?'r':'')});
+  $('tv').textContent=S.tmp;
+  S.win.push(w);if(S.win.length>EINUNDACHTZIG)S.win.shift();
+  const m=S.win.reduce((a,b)=>a+b,0)/S.win.length,v=S.win.reduce((a,b)=>a+(b-m)*(b-m),0)/S.win.length,res=1/(1+v*100);
+  $('kv').innerHTML=`<span>RAUM</span><b>${r+1} von NEUN</b><span>SLOT</span><b>${S.slot} (0–${EINUNDACHTZIG-EINS})</b><span>R / C</span><b>${r+1} / ${S.slot%NEUN+1}</b><span>RAR</span><b>${rar()} (81 − slot%9)</b><span>SEIN · LEBEN</span><b>${SEIN} · ${LEBEN}</b><span>WAHRHEIT</span><b>${w.toFixed(4)}</b><span>RES</span><b>${res.toFixed(4)} (Fenster ${EINUNDACHTZIG})</b><span>ATEM</span><b>${ATEM[Math.floor(S.step/VIER)%VIER]} (${S.step%VIER+1}/${VIER}, Zyklus ${SECHZEHN})</b>`;
+  const rm=ROOMS[S.L9],t=TRI[S.L3];
+  $('v81').innerHTML=`Slot ${S.slot} · TMP ${S.tmp}<br>WAHRHEIT ${w.toFixed(2)}`;
+  $('v9').innerHTML=`${rm[0]} ${rm[1]}`;$('v3').innerHTML=`${t[0]} · ${t[1]}`;
+  $('L9').className='lv'+(S.L9===r?' act':' stale');$('L3').className='lv'+(S.L3===tri(r)?' act':' stale');
+  [...$('rooms').children].forEach((b,i)=>b.className=i===S.L9?'on':'');
+  $('rinfo').textContent=`Raum ${rm[0]} ${rm[1]} → Gruppe ${t[0]} ${t[1]}: ${t[2]}`;
+  $('stat').textContent=(S.L9===r&&S.L3===tri(r))?'✓ alle drei Stufen gleich gewurzelt':'⚠ untere Stufen eingefroren – JETZT WURZELN oder Verbindung aktivieren';
+  S.links.forEach((v,i)=>{$('s'+i).textContent=v?'● live':'○ manuell';$('s'+i).className=v?'s1':'s0'});$('bst').textContent=Math.round(boost()*100)+'%';
+}
+
+/* ── Events ── */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-s],[data-r],[data-l]');if(!b)return;
+  if(b.dataset.s!==undefined)S.slot=+b.dataset.s;
+  else if(b.dataset.r!==undefined)S.L9=+b.dataset.r;
+  else{const l=S.links.slice();l[+b.dataset.l]=l[+b.dataset.l]?0:1;S.links=l}
+  draw()});
+$('tmp').oninput=e=>{S.tmp=+e.target.value;draw()};
+$('root').onclick=()=>{wurzeln();draw()};
+$('all').onclick=()=>{S.links=[1,1,1];draw()};
+(function tick(){S.step=(S.step+1)%SECHZEHN;draw();setTimeout(tick,700/(1+boost()))})();
+wurzeln();draw();
+</script>
+</body>
+</html>

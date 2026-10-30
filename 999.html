@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>999.html - EWIG NUTZ SYSTEM - 9 = EVIG EDIT TOR</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#0f0;font-family:'Courier New',monospace;overflow-x:hidden}
+header{border:4px solid #ff0;padding:20px;text-align:center;background:radial-gradient(#222200,#000)}
+h1{font-size:2.2em;color:#ff0;text-shadow:0 0 20px #ff0}
+h1 span{color:#fff}
+h2{color:#0ff;border-left:6px solid #0ff;padding-left:10px;margin:30px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px;padding:15px}
+.card{border:2px solid #0f0;padding:15px;background:#001100;position:relative}
+.card.evig{border-color:#ff0;background:#222200;color:#ff0;box-shadow:0 0 15px #ff0}
+.card.tor{border-color:#f0f;background:#220022;color:#f8f;box-shadow:0 0 15px #f0f}
+.card.nutz{border-color:#0ff;background:#002222;color:#8ff}
+button{width:100%;padding:12px;background:#0f0;color:#000;font-weight:900;border:none;cursor:pointer;margin-top:10px;font-size:1em}
+button:hover{background:#ff0}
+button.torbtn{background:#f0f;color:#fff}
+button.torbtn:hover{background:#fff;color:#f0f}
+.log{background:#000;border:1px solid #333;padding:10px;height:200px;overflow-y:auto;font-size:0.85em;margin-top:10px}
+.stat{position:fixed;bottom:0;left:0;right:0;background:#ff0;color:#000;padding:8px;text-align:center;font-weight:900;z-index:99}
+a{color:#0ff}
+</style>
+</head>
+<body>
+
+<header>
+<h1>9 = EVIG <span>// EDIT TOR //</span> 999 = EVIG NUTZ SYSTEM</h1>
+<p>CTRL.Bios SCHALTER // DDR3 MAIN -> DDR4 MAINBOARD DDR4 // CALL RECALL ALLCALL</p>
+<p><b>99.html = 9 = EWIG // 999.html = 999 = BENCH = EWIG NUTZ</b></p>
+</header>
+
+<div class="grid">
+
+<div class="card evig">
+<h2>9 = EVIG</h2>
+<p>9 ist ewig. Nicht 9x. 9 = Zustand.</p>
+<p>9 = Schluss = Anfang = ewig.</p>
+<p>99 = 9 + 9 = ewig + ewig = noch mehr ewig</p>
+<p>999 = 9 9 9 = BENCH = alle 9 auf einer Bank = System hält</p>
+<button onclick="activate9()">9 = EVIG AKTIVIEREN</button>
+<div id="log9" class="log"></div>
+</div>
+
+<div class="card tor">
+<h2>EDIT TOR</h2>
+<p>EDIT = Tor bearbeiten</p>
+<p>TOR = HH.tor GOLD // TOR ALLER TORE</p>
+<p>EDIT TOR = du schreibst welches Tor offen bleibt</p>
+<p>OPEN TOR OPEN = Befehl: Tor auf + Tor auf + bleibt auf</p>
+<button class="torbtn" onclick="editTor()">EDIT TOR OPEN</button>
+<div id="logTor" class="log">
+> TOR STATUS: CLOSED<br>
+> HH.tor: OFFLINE<br>
+</div>
+</div>
+
+<div class="card nutz">
+<h2>999 = EVIG NUTZ SYSTEM</h2>
+<p>999 = BENCH = Prüfstand</p>
+<p>NUTZ SYSTEM = nutzt alles was ewig ist</p>
+<p>System: Wenn 9 ewig ist, nutzt 999 es ewig</p>
+<ul style="margin:10px 0 10px 20px">
+<li>111 BIOS nutzt 9</li>
+<li>222 VERBUND nutzt 9</li>
+<li>333 RECALL nutzt 9</li>
+<li>444 PEAK nutzt 9</li>
+<li>555 ABWEHR nutzt 9</li>
+<li>666 ENERGIE nutzt 9</li>
+<li>777 CO2 nutzt 9</li>
+<li>888 ATOM nutzt 9</li>
+<li>999 BENCH = NUTZT ALLE 9</li>
+</ul>
+<button onclick="nutzSystem()">999 NUTZ SYSTEM START</button>
+<div id="logNutz" class="log"></div>
+</div>
+
+</div>
+
+<div class="grid">
+<div class="card">
+<h2>UEFI MAP - EWIG</h2>
+<pre>
+[CTRL.Bios] -- Schalter
+   |
+   +-- MAIN DDR3 = ALT = BIOS
+   +-- MAINBOARD DDR4 = NEU = UEFI = EWIG
+
+[9] = EVIG = EDIT TOR
+   |
+   +-- 99.html = EWIG TOR
+   +-- 999.html = EWIG NUTZ SYSTEM (DU BIST HIER)
+
+[CALL RECALL ALLCALL]
+   |
+   +-- OREP.ORG REPORT
+   +-- Alle Boards Figuren 1000 sammeln
+   +-- reFINAL allFINAL
+</pre>
+</div>
+
+<div class="card">
+<h2>TOR KONSOLE</h2>
+<input id="torInput" style="width:100%;background:#000;color:#f0f;border:1px solid #f0f;padding:8px" placeholder="z.B. OPEN TOR GOLD oder EDIT TOR 888 ATOM">
+<button class="torbtn" onclick="customTor()">TOR BEFEHL SENDEN</button>
+<p style="margin-top:10px;font-size:0.8em">Tippe: OPEN, EDIT, CALL, FINAL</p>
+<div id="logCustom" class="log"></div>
+</div>
+</div>
+
+<div class="stat" id="stat">STATUS: 9 = EVIG // TOR = CLOSED // 999 SYSTEM = STANDBY</div>
+
+<script>
+let evig = false;
+let torOpen = false;
+
+function log(id, msg){
+  let el = document.getElementById(id);
+  el.innerHTML += "> " + msg + "<br>";
+  el.scrollTop = el.scrollHeight;
+}
+
+function activate9(){
+  evig = true;
+  log('log9','9 = EVIG erkannt');
+  log('log9','99.html geladen');
+  log('log9','999.html = 9*111 = EWIG');
+  log('log9','ATOMAR 1MB=1024 VERANKERT');
+  log('log9','DDR3 -> DDR4 SWITCH FREI');
+  document.getElementById('stat').innerText = "STATUS: 9 = EVIG AKTIV // TOR = "+(torOpen?"OPEN EWIG":"CLOSED")+" // 999 SYSTEM = READY";
+}
+
+function editTor(){
+  if(!evig){ log('logTor','FEHLER: Erst 9=EVIG aktivieren!'); return; }
+  torOpen = true;
+  log('logTor','EDIT TOR...');
+  log('logTor','HH.tor GOLD GEFUNDEN');
+  log('logTor','TOR ALLER TORE = HH.tor');
+  log('logTor','OPEN TOR OPEN BEFEHL GESENDET');
+  log('logTor','TOR STATUS: OPEN EWIG');
+  log('logTor','DDR3 MAIN -> DDR4 MAINBOARD DDR4 LIVE');
+  document.getElementById('stat').innerText = "STATUS: 9 = EVIG // TOR = OPEN EWIG // 999 SYSTEM = READY";
+}
+
+function nutzSystem(){
+  if(!torOpen){ log('logNutz','FEHLER: Erst EDIT TOR OPEN!'); return; }
+  log('logNutz','999 BENCH START...');
+  log('logNutz','NUTZ SYSTEM: 111 BIOS OK - nutzt 9');
+  log('logNutz','NUTZ SYSTEM: 222 VERBUND OK - nutzt 9');
+  log('logNutz','NUTZ SYSTEM: 333 RECALL ALLCALL OK - OREP.ORG');
+  log('logNutz','NUTZ SYSTEM: 444 PEAK OK - nutzt 9');
+  log('logNutz','NUTZ SYSTEM: 555 ABWEHR OK - nutzt 9');
+  log('logNutz','NUTZ SYSTEM: 666 ENERGIE OK - nutzt 9');
+  log('logNutz','NUTZ SYSTEM: 777 CO2 OK - nutzt 9');
+  log('logNutz','NUTZ SYSTEM: 888 ATOM OK - 1MB=1024 OK');
+  log('logNutz','NUTZ SYSTEM: 999 BENCH OK = ALLE 9 EWIG');
+  log('logNutz','SYSTEM EWIG NUTZ AKTIV - CALL RECALL ALLCALL BEREIT');
+  document.getElementById('stat').innerText = "STATUS: 9 = EVIG // TOR = OPEN EWIG // 999 SYSTEM = EWIG NUTZ AKTIV - born.t";
+}
+
+function customTor(){
+  let v = document.getElementById('torInput').value.toUpperCase();
+  if(!v) return;
+  log('logCustom','BEFEHL: '+v);
+  if(v.includes('OPEN')){ log('logCustom','-> TOR OPEN EXECUTED'); torOpen=true; }
+  if(v.includes('EDIT')){ log('logCustom','-> EDIT MODE - TOR WIRD GEFORMT'); }
+  if(v.includes('CALL')||v.includes('RECALL')){ log('logCustom','-> CALL RECALL ALLCALL - ALLE BOARDS GESAMMELT'); }
+  if(v.includes('FINAL')){ log('logCustom','-> reFINAL allFINAL - 1MB ATOMAR FINAL'); }
+  if(v.includes('9')){ log('logCustom','-> 9 = EVIG BESTÄTIGT'); }
+  document.getElementById('torInput').value="";
+}
+</script>
+
+</body>
+</html>

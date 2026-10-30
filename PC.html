@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REAL.PC — Upgrade atom.PC → REAL.PC — PC=Kaiser=Drache zugleich — 11-99 9=EVIG 99=EDIT TOR 999=NUTZ — KAISER DRACHE OS</title>
+<style>
+:root{--gold:#ffd700;--gold2:#f0d080;--bg:#050507;--panel:#0a0a0a;--bd:#1a1a1a;--grn:#39ff88;--cyan:#00ccff;--pink:#ff2d9a;--vio:#a855f7;--orange:#ff7a18;--red:#ff4a2e;--dim:#2a3a4a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--gold);font:11px/1.5 JetBrains Mono,Consolas,monospace;min-height:100vh}
+header{position:sticky;top:0;z-index:99;background:#111;border-bottom:3px solid #000;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+b{color:var(--gold)} .dim{color:#666} .grn{color:var(--grn)} .cyan{color:var(--cyan)} .pink{color:var(--pink)}
+.btn{border:2px solid #000;background:#000;color:#fff;padding:5px 10px;font:900 11px monospace;cursor:pointer}
+.btn.gold{background:var(--gold);color:#000}.btn.grn{background:var(--grn);color:#000}.btn.cyan{background:var(--cyan);color:#000}.btn.pink{background:var(--pink);color:#000}
+canvas{display:block;width:100%;background:#000;border:2px solid #000}
+#gpuCanvas{height:420px}
+.status{display:flex;flex-wrap:wrap;gap:4px;padding:6px;background:#0a0a0a;border-bottom:2px solid #000;font-size:10px}
+.status .it{padding:2px 6px;background:#000;border:1px solid #1a1a1a;color:#666}
+.status .it b{color:var(--gold)}
+.boot{padding:8px;background:#000;border-bottom:3px solid #000;max-height:190px;overflow:auto;font-size:11px;color:var(--grn)}
+.boot .l{opacity:0;animation:fade .3s forwards}.ok{color:var(--grn)}.warn{color:var(--gold2)}.err{color:var(--red)}
+@keyframes fade{to{opacity:1}}
+main{display:grid;grid-template-columns:minmax(380px,1.3fr) minmax(320px,1fr);gap:8px;padding:8px}
+@media(max-width:950px){main{grid-template-columns:1fr}}
+.panel{border:3px solid var(--bd);background:var(--panel);padding:8px;border-radius:6px;position:relative}
+.panel h3{font-size:11px;letter-spacing:2px;color:var(--dim);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase}
+.panel h3 .id{color:var(--gold);font-size:14px;margin-right:6px}
+.led{width:8px;height:8px;border-radius:50%;background:#222;display:inline-block;transition:.3s}
+.led.on{background:var(--grn);box-shadow:0 0 8px var(--grn)}
+.led.kaiser{background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulse 1s infinite}
+.led.drache{background:var(--red);box-shadow:0 0 12px var(--red)}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+.regs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:10px}
+.reg{padding:4px 6px;background:#000;border:1px solid #1a1a1a}
+.reg .n{color:var(--dim);font-size:8px}.reg .v{color:var(--gold);font-weight:900}
+.ram-grid{display:grid;grid-template-columns:repeat(16,1fr);gap:0;font-size:9px;font-family:Consolas,monospace}
+.ram-grid .c{padding:2px 1px;text-align:center;color:#333;border:1px solid #080808}
+.ram-grid .c.has{color:var(--gold);background:#0f0f0a}
+.ram-grid .c.pc{background:#2a1a00;color:var(--gold);font-weight:900}
+.ram-grid .c.hl{background:#1a001a;color:var(--pink)}
+.row{display:flex;gap:6px;align-items:center;margin:3px 0;font-size:10px}
+.row .lbl{color:var(--dim);min-width:70px}.row .val{color:var(--gold);font-weight:900}
+.term{background:#000;color:var(--grn);font:11px Consolas,monospace;padding:8px;height:240px;overflow:auto;border:2px solid #000;white-space:pre-wrap}
+.term-in{display:flex;background:#000;border:2px solid #000;border-top:none}
+.term-in span{padding:6px 0 6px 8px;color:var(--gold)}
+.term-in input{flex:1;background:transparent;border:none;color:var(--grn);font:11px Consolas,monospace;padding:6px 8px;outline:none}
+.kaiserbar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;gap:4px;margin:6px 0}
+.kaiserbar .k{padding:6px;border:1px solid #1a1a1a;background:#000;text-align:center;font-size:9px;cursor:pointer}
+.kaiserbar .k.active{border-color:var(--gold);color:var(--gold);background:#1a1400}
+.kaiserbar .k.drache.active{border-color:var(--red);color:var(--red);background:#1a0000}
+.drachehud{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}
+.drachehud .d{padding:4px 8px;border:1px solid #1a1a1a;background:#000;font-size:9px;cursor:pointer}
+.drachehud .d.active{border-color:var(--cyan);color:var(--cyan)}
+.bar{height:6px;background:#000;border:1px solid #222;position:relative;flex:1}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;transition:.3s}
+.linkrow{display:flex;flex-wrap:wrap;gap:4px;padding:8px;border-top:2px solid #000}
+.linkrow a{border:2px solid var(--bd);background:#000;padding:3px 7px;font-size:9px;color:var(--dim)}
+.linkrow a:hover{color:var(--gold);border-color:var(--gold)}
+</style>
+</head>
+<body>
+<header>
+<b>REAL.PC</b><span class="dim">11 22 33 44 55 66 77 88 99 — 9 Repos=1 PC</span>
+<b style="color:#ffd700">55=KAISER=DRACHE zugleich</b>
+<button class="btn gold" id="btnRun">● RUN</button>
+<button class="btn" id="btnStep">▸ STEP</button>
+<button class="btn" id="btnReset">⟲ RESET</button>
+<button class="btn grn" id="btnKaiser">KAISER MODE</button>
+<button class="btn pink" id="btnDrache">DRACHE MODE</button>
+<span class="dim">Speed</span><input id="speed" type="range" min="1" max="500" value="120" style="width:90px">
+<span id="speedLbl" class="grn">120 Hz</span>
+<a class="btn" href="./ALLES.html">ALLES</a>
+<a class="btn" href="./index.html">atom.PC</a>
+</header>
+
+<div class="status">
+<span class="it">CPU <b id="sCPU">—</b></span>
+<span class="it">Cycles <b id="sCycles">0</b></span>
+<span class="it">PC <b id="sPC">0x00</b></span>
+<span class="it">OUT <b id="sOUT">0</b></span>
+<span class="it">Uptime <b id="sUp">0s</b></span>
+<span class="it">KAISER <b id="sKaiser" style="color:#ffd700">55</b></span>
+<span class="it">DRACHE <b id="sDrache" style="color:#ff4a2e">—</b></span>
+<span class="it">9=<b>EVIG</b> 99=<b>EDIT TOR</b> 999=<b>NUTZ BENCH</b></span>
+</div>
+
+<div class="boot" id="boot"></div>
+
+<main>
+<!-- GPU = DRACHE = KAISER -->
+<section class="panel" style="border-color:#ffd700">
+<h3><span><span class="id">44+55</span> GPU+PC = DRACHE+KAISER = REAL.PC KAISER-DRACHE FUSION</span><span class="led kaiser on" id="ledGPU"></span></h3>
+<canvas id="gpuCanvas"></canvas>
+<div class="drachehud" id="dracheModes"></div>
+<div class="kaiserbar" id="kaiserModes"></div>
+<div class="row"><span class="lbl">Gear 22</span><span class="val grn" id="gearRPM">0 RPM</span><span class="lbl" style="margin-left:auto">Buffer</span><span class="val" id="bufN">0</span><span class="lbl">KaiserPower</span><span class="val" id="kPower" style="color:#ffd700">0%</span></div>
+<div style="display:flex;gap:4px"><div class="bar"><div class="fill" id="barKaiser" style="background:var(--gold);width:0%"></div></div><div class="bar"><div class="fill" id="barDrache" style="background:var(--red);width:0%"></div></div></div>
+</section>
+
+<!-- CPU 77 -->
+<section class="panel">
+<h3><span><span class="id">77</span> CPU · CALC-128X · 11 BIOS → 77</span><span class="led on" id="ledCPU"></span></h3>
+<div class="regs">
+<div class="reg"><div class="n">A KAISER</div><div class="v" id="regA">0x00</div></div>
+<div class="reg"><div class="n">B DRACHE</div><div class="v" id="regB">0x00</div></div>
+<div class="reg"><div class="n">C</div><div class="v" id="regC">0x00</div></div>
+<div class="reg"><div class="n">D</div><div class="v" id="regD">0x00</div></div>
+<div class="reg"><div class="n">PC</div><div class="v" id="regPC">0x00</div></div>
+<div class="reg"><div class="n">IR</div><div class="v" id="regIR">0x00</div></div>
+<div class="reg"><div class="n">SP</div><div class="v" id="regSP">0xFF</div></div>
+<div class="reg"><div class="n">FLAGS KAISER</div><div class="v" id="regF">0x00</div></div>
+</div>
+<div class="row" style="margin-top:6px"><span class="lbl">Next</span><span class="val grn" id="nextInstr">—</span></div>
+<div class="row"><span class="lbl">Instr Set</span><span class="val">LOAD STORE ADD JMP JZ SUB HLT OUT KAISER DRACHE</span></div>
+</section>
+
+<!-- RAM 66 -->
+<section class="panel">
+<h3><span><span class="id">66</span> RAM · 256 B · DDR3 MAIN → DDR4 MAINBOARD</span><span class="led on" id="ledRAM"></span></h3>
+<div class="ram-grid" id="ramGrid"></div>
+<div class="row" style="margin-top:4px"><span class="lbl">9=EVIG</span><span class="val">RAM hält Zustand fertig ewig</span></div>
+</section>
+
+<!-- ROM 88 -->
+<section class="panel">
+<h3><span><span class="id">88</span> ROM · MBR 0xCA4E · 1MB=1024 REAL · d.hdf.rom</span><span class="led on" id="ledROM"></span></h3>
+<div id="romDisasm" style="font-size:10px;color:#666;line-height:1.6"></div>
+<div class="row"><span class="lbl">BOOT</span><span class="val">LOAD KAISER + ADD DRACHE → OUT FUSION</span></div>
+</section>
+
+<!-- SCSI 33 + PIPELINE -->
+<section class="panel">
+<h3><span><span class="id">33</span> SCSI · DISK · sli.ready raid.ready</span><span class="led on" id="ledSCSI"></span></h3>
+<div id="diskLog" style="font-size:10px;color:#666;max-height:100px;overflow:auto"></div>
+<div class="row"><span class="lbl">PIPELINE</span><span class="val grn">Multi→Aufstieg→Abstieg→Norm→NC→ANKER</span></div>
+<div class="row"><span class="lbl">BUND</span><span class="val">ls -a · 9076905 · pipeline.yml</span></div>
+</section>
+
+<!-- SYS 99 + HOME ORT -->
+<section class="panel" style="border-color:#f0d080">
+<h3><span><span class="id">99</span> SYS · 99=EDIT TOR · 999=NUTZ BENCH · HOME ORT</span><span class="led on" id="ledSYS"></span></h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:9px">
+<div style="border:1px solid #1a1a1a;padding:4px;background:#000"><b style="color:#ffd700">9 EVIG</b><br>Zustand fertig ewig<br>gpu.rdy sli.ready<br>Strom oben</div>
+<div style="border:1px solid #00ccff;padding:4px;background:#000"><b style="color:#00ccff">99 EDIT TOR</b><br>9 editiert Tor<br>HH.tor Tor aller Tore<br>q702 USB3 Mitte</div>
+<div style="border:1px solid #ff2d9a;padding:4px;background:#000"><b style="color:#ff2d9a">999 NUTZ</b><br>9 9 9 BENCH<br>alle 9 auf Bank<br>WiFi7 unten MLO=PQ</div>
+<div style="border:1px solid #39ff88;padding:4px;background:#000"><b style="color:#39ff88">PQ nur PQ</b><br>weil er das auch ist<br>1 77 DAS IST PQ<br>Parallel Queue</div>
+</div>
+<div class="row" style="margin-top:4px"><span class="lbl">HOME</span><span class="val">HOME BIOS RADAR SAT ICH DU Einwilligung ESSEN</span></div>
+<div class="row"><span class="lbl">ORT</span><span class="val">ORT Beispiel Ort von 9 RADAR SAT q702</span></div>
+<div style="display:flex;gap:4px;margin-top:4px"><div class="bar"><div class="fill" id="co2bar" style="background:var(--red);width:20%"></div></div><div class="bar"><div class="fill" id="o2bar" style="background:var(--grn);width:0%"></div></div></div>
+<div class="row"><span class="lbl">use.js</span><span class="val" id="sChem">CO2 20% → O2 0%</span></div>
+</section>
+
+<!-- 11 BIOS + 22 GEAR -->
+<section class="panel">
+<h3><span><span class="id">11+22</span> BIOS + ZAHNRAD · 11 BIOS · 22 GEAR · 4 Zahnräder Kuckuck Lauf</span><span class="led on" id="ledBIOS"></span></h3>
+<pre style="font-size:9px;color:#888;background:#000;padding:6px;border:1px solid #1a1a1a;white-space:pre-wrap">
+11 DA BIOS 4 Zahnräder Kuckuck Lauf
+22 DA ZAHNRAD Kompletter-Pc → 22.html
+33 DA SCSI Was-Fehlt-Noch-Gpu → 33 TURBO 3e
+44 DA GPU /3 PYRAMIDE HOLO.engine.js
+55 DA PC Komplett PC Masse zu Masse = KAISER+DRACHE
+66 DA RAM Zahnrader → 66 Bedarf+Zeit
+77 DA CPU core.js CALC 128X
+88 DA ROM d.hdf.rom MBR 0xCA4E 1MB=1024 Realität
+99 DA SYS SYS.js 9 Repos=1 PC Rang )9( BORG 7482
+
+use.js D LASSEN CO2->O2+H2O Elben emulieren
+js/3.js 3x ewig 3
+eye=rauch auge=licht indy=sensorik — 27er Karussell — 3× ewig 3
+Rang )9( — use.user user.use i.d.md CLOSED.md OPEN.md
+</pre>
+</section>
+
+<!-- HAND 6 -->
+<section class="panel" style="border-color:#e8ff45">
+<h3><span><span class="id">HAND</span> EINE HAND VON 6 · V103 GEOPFERT · 55=KAISER hält 6</span><span class="led on" style="background:#e8ff45"></span></h3>
+<div class="kaiserbar">
+<div class="k"><b>HBT</b><br>RAM #ff4a2e</div>
+<div class="k"><b>HTB</b><br>ROM f(f(x))</div>
+<div class="k active"><b>BHT</b><br>SCSI chain</div>
+<div class="k"><b>BTH</b><br>RAID 999</div>
+<div class="k"><b>THB</b><br>CTRL</div>
+<div class="k"><b>TBH</b><br>SLI 2=1</div>
+</div>
+<pre style="font-size:9px;color:#888;background:#000;padding:4px;border:1px solid #1a1a1a">55=KAISER=DRACHE zugleich = 1 Hand von 6 hält 6 Finger = 6 PERMS HBT HTB BHT BTH THB TBH = 6 Faces QUBE = 6 Drachen Modi OST WEST PAULI SIEGFRIED VULKAN ACHSE = V103 geopfert 730=FREI→6=FINGER→1=HAND ROOT</pre>
+</section>
+
+</main>
+
+<div class="panel" style="margin:8px;border-color:var(--gold)">
+<h3>TERMINAL · REAL.PC · KAISER-DRACHE OS · 9=EVIG 99=EDIT TOR 999=NUTZ</h3>
+<div class="term" id="term"><div class="ok">REAL.PC · Rang )9( · 9 Repos=1 PC · PC=Kaiser=Drache zugleich · boot…</div></div>
+<div class="term-in"><span>$</span><input id="termIn" autocomplete="off" spellcheck="false" placeholder="help kaiser drache run stop step reset"></div>
+</div>
+
+<div class="linkrow">
+<a href="./9.html">9 EVIG</a><a href="./99.html">99 EDIT TOR</a><a href="./999.html">999 NUTZ</a><a href="./PQ.html">PQ nur PQ</a><a href="./home.html">HOME q702</a><a href="./ort.html">ORT</a><a href="./ALLES.html" style="border-color:#39ff88;color:#39ff88">ALLES</a>
+<a href="./11.html">11 BIOS</a><a href="./22.html">22 ZAHNRAD</a><a href="./33.html">33 SCSI</a><a href="./44.html">44 GPU</a><a href="./55.html" style="border-color:#ffd700;color:#ffd700">55 KAISER DRACHE</a><a href="./66.html">66 RAM</a><a href="./77.html">77 CPU</a><a href="./88.html">88 ROM</a><a href="./99.html">99 SYS</a><a href="./use.js" style="color:#39ff88">use.js</a>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const bootEl=$('boot'), termEl=$('term'), termIn=$('termIn');
+const gpuCv=$('gpuCanvas'), gpuCtx=gpuCv.getContext('2d');
+
+const S={running:false,speed:120,cycles:0,out:0,lastOut:0,booted:false,startTime:null,gearAngle:0,co2:20,o2:0,buf:[],kaiserPower:0,dracheMode:'OST',kaiserMode:'HBT',isKaiser:false,isDrache:false};
+const GPU_MAX=250, TICK_MS=20;
+const RAM=new Uint8Array(256);
+const BOOT_KAISER_DRACHE=[
+  0x01,0x40, // LOAD 0x40 counter Kaiser
+  0x03,0x41, // ADD 0x41 +1 Drache
+  0x02,0x40, // STORE 0x40 Kaiser speichert
+  0x08,0x40, // OUT 0x40 Fusion Kaiser+Drache
+  0x04,0x00, // JMP 0 ewig EVIG
+];
+const CPU={A:0,B:0,C:0,D:0,PC:0,IR:0,SP:0xFF,FLAGS:0,halt:false};
+const OPS={0x00:"NOP",0x01:"LOAD KAISER",0x02:"STORE KAISER",0x03:"ADD DRACHE",0x04:"JMP EVIG",0x05:"JZ",0x06:"SUB",0x07:"HLT",0x08:"OUT FUSION"};
+
+const DRACHE_MODES=[
+  {id:'OST',name:'OST penta 80bpm',color:'#ffd700',bpm:80,shape:'sine',freq:0.68},
+  {id:'WEST',name:'WEST minor epic 100bpm',color:'#ff7a18',bpm:100,shape:'saw',freq:0.52},
+  {id:'PAULI',name:'PAULI punk 140bpm',color:'#ff5a5f',bpm:140,shape:'square',freq:0.18},
+  {id:'SIEGFRIED',name:'SIEGFRIED battle 120bpm',color:'#00ccff',bpm:120,shape:'triangle',freq:0.46},
+  {id:'VULKAN',name:'VULKAN drone 62bpm',color:'#39ff88',bpm:62,shape:'sine',freq:1.1,drone:true},
+  {id:'ACHSE',name:'ACHSE techno 128bpm',color:'#a855f7',bpm:128,shape:'square',freq:0.16},
+];
+const KAISER_MODES=[
+  {id:'HBT',name:'HBT RAM',color:'#ff4a2e'},
+  {id:'HTB',name:'HTB ROM',color:'#e8ff45'},
+  {id:'BHT',name:'BHT SCSI',color:'#00f5ff'},
+  {id:'BTH',name:'BTH RAID',color:'#ffd700'},
+  {id:'THB',name:'THB CTRL',color:'#ff6b6b'},
+  {id:'TBH',name:'TBH SLI',color:'#39ff88'},
+];
+
+function bootLog(m,c=''){const d=document.createElement('div');d.className='l '+c;d.textContent=m;bootEl.appendChild(d);bootEl.scrollTop=bootEl.scrollHeight;}
+function termLog(m,c=''){const d=document.createElement('div');if(c)d.className=c;d.textContent=m;termEl.appendChild(d);termEl.scrollTop=termEl.scrollHeight;while(termEl.children.length>500)termEl.removeChild(termEl.firstChild);}
+function setLED(id,on,cls='on'){const e=$(id);if(!e)return;e.className='led '+(on?cls:'');}
+function renderRAM(){const g=$('ramGrid');let h='';for(let i=0;i<256;i++){let cl='c';if(RAM[i]!==0)cl+=' has';if(i===CPU.PC||i===(CPU.PC-1))cl+=' pc';if(i>=0x40&&i<=0x41)cl+=' hl';h+=`<div class="${cl}">${RAM[i].toString(16).padStart(2,'0')}</div>`}g.innerHTML=h;}
+function renderRegs(){$('regA').textContent='0x'+CPU.A.toString(16).padStart(2,'0');$('regB').textContent='0x'+CPU.B.toString(16).padStart(2,'0');$('regC').textContent='0x'+CPU.C.toString(16).padStart(2,'0');$('regD').textContent='0x'+CPU.D.toString(16).padStart(2,'0');$('regPC').textContent='0x'+CPU.PC.toString(16).padStart(2,'0');$('regIR').textContent='0x'+CPU.IR.toString(16).padStart(2,'0');$('regSP').textContent='0x'+CPU.SP.toString(16).padStart(2,'0');$('regF').textContent='0x'+CPU.FLAGS.toString(16).padStart(2,'0');}
+function disasm(pc){const op=RAM[pc],arg=RAM[pc+1];const name=OPS[op]||'???';if(op===0x00||op===0x07)return name;return `${name} 0x${arg.toString(16).padStart(2,'0')}`;}
+function renderROM(){let html='';for(let i=0;i<BOOT_KAISER_DRACHE.length;i+=2){const op=BOOT_KAISER_DRACHE[i],arg=BOOT_KAISER_DRACHE[i+1];const name=OPS[op]||'???';const argS=(op===0x00||op===0x07)?'':"0x"+arg.toString(16).padStart(2,'0');const hl=(i===CPU.PC)?'color:#ffd700;font-weight:900':'';html+=`<div style="${hl}">0x${i.toString(16).padStart(2,'0')}  ${name.padEnd(14)} ${argS}</div>`}$('romDisasm').innerHTML=html;}
+function step(){if(CPU.halt)return;const op=RAM[CPU.PC],arg=RAM[CPU.PC+1];CPU.IR=op;CPU.PC=(CPU.PC+2)&0xFF;S.cycles++;S.kaiserPower=(S.cycles%100);switch(op){case 0x00:break;case 0x01:CPU.A=RAM[arg];break;case 0x02:RAM[arg]=CPU.A;break;case 0x03:CPU.A=(CPU.A+RAM[arg])&0xFF;CPU.FLAGS=CPU.A===0?0x02:0;break;case 0x04:CPU.PC=arg;break;case 0x05:if(CPU.A===0)CPU.PC=arg;break;case 0x06:CPU.A=(CPU.A-RAM[arg])&0xFF;CPU.FLAGS=CPU.A===0?0x02:0;break;case 0x07:CPU.halt=true;break;case 0x08:{S.lastOut=RAM[arg];S.out++;S.buf.push(RAM[arg]);if(S.buf.length>GPU_MAX)S.buf.shift();S.co2=Math.max(0,S.co2-0.2);S.o2=Math.min(100,S.o2+0.15);if(S.out%40===0)diskLog(`KAISER+DRACHE OUT ${RAM[arg]} cyc ${S.cycles} ${S.dracheMode}`);break;}default:CPU.halt=true;}$('nextInstr').textContent=CPU.halt?'HALT':`${disasm(CPU.PC)} @ 0x${CPU.PC.toString(16).padStart(2,'0')}`;}
+function resizeGPU(){gpuCv.width=Math.max(500,gpuCv.clientWidth*2);gpuCv.height=Math.max(300,gpuCv.clientHeight*2);}
+window.addEventListener('resize',resizeGPU);
+function drawGPU(){
+ const w=gpuCv.width,h=gpuCv.height,c=gpuCtx;
+ c.fillStyle='#000';c.fillRect(0,0,w,h);
+ c.strokeStyle='#0a1a0a';c.lineWidth=1;for(let i=0;i<w;i+=40){c.beginPath();c.moveTo(i,0);c.lineTo(i,h);c.stroke();}for(let i=0;i<h;i+=40){c.beginPath();c.moveTo(0,i);c.lineTo(w,i);c.stroke();}
+ // Kaiser Drache waveform
+ if(S.buf.length>1){
+  const mode=DRACHE_MODES.find(m=>m.id===S.dracheMode)||DRACHE_MODES[0];
+  c.strokeStyle=mode.color;c.lineWidth=4;c.beginPath();
+  for(let i=0;i<S.buf.length;i++){
+   const x=(i/GPU_MAX)*w;
+   const base=h-(S.buf[i]/255)*h*0.8 - h*0.1;
+   const wobble=Math.sin(i*mode.freq + S.cycles*0.02)*(S.isDrache?20:5);
+   const y=base+wobble;
+   if(i===0)c.moveTo(x,y);else c.lineTo(x,y);
+  }
+  c.stroke();
+  // Kaiser overlay gold
+  c.strokeStyle='#ffd70033';c.lineWidth=2;c.beginPath();
+  for(let i=0;i<S.buf.length;i++){
+   const x=(i/GPU_MAX)*w;
+   const y=h-(S.buf[i]/255)*h*0.8 - h*0.1;
+   if(i===0)c.moveTo(x,y);else c.lineTo(x,y);
+  }
+  c.stroke();
+ }
+ // 9 gondolas 11-99 as Kaiser court
+ const gondeln=[11,22,33,44,55,66,77,88,99];
+ const cxBase=w*0.5, cyBase=h*0.78;
+ for(let idx=0;idx<gondeln.length;idx++){
+  const nr=gondeln[idx];
+  const angle=(idx*360/gondeln.length + S.gearAngle*8)*Math.PI/180;
+  const R= w*0.18;
+  const x=cxBase+Math.cos(angle)*R;
+  const y=cyBase+Math.sin(angle)*R*0.35;
+  const isKaiser=nr===55;
+  c.fillStyle=isKaiser?'#ffd700':'#111';
+  c.strokeStyle=isKaiser?'#ffd700':(nr===44?'#ff4a2e':'#333');
+  c.lineWidth=isKaiser?3:1;
+  c.fillRect(x-24,y-12,48,24);c.strokeRect(x-24,y-12,48,24);
+  c.fillStyle=isKaiser?'#000':'#ffd700';c.font='bold 11px monospace';c.fillText(String(nr),x-10,y+3);
+  if(isKaiser){c.fillStyle='#ffd700';c.font='8px monospace';c.fillText('KAISER DRACHE',x-28,y-14);}
+ }
+ // central gear 22 + Kaiser crown
+ const gearX=w-120, gearY=110, gearR=55;
+ c.save();c.translate(gearX,gearY);c.rotate(S.gearAngle);
+ c.strokeStyle=S.isKaiser?'#ffd700':'#ffd700';c.lineWidth=S.isKaiser?4:2;
+ c.beginPath();c.arc(0,0,gearR,0,Math.PI*2);c.stroke();
+ for(let k=0;k<8;k++){c.save();c.rotate(k*Math.PI/4);c.fillStyle=S.isKaiser?'#ffd700':'#ffd700';c.fillRect(-5,-gearR-14,10,16);c.restore();}
+ c.beginPath();c.arc(0,0,9,0,Math.PI*2);c.fillStyle=S.isKaiser?'#ffd700':'#ffd700';c.fill();
+ c.restore();
+ // Kaiser crown on gear if active
+ if(S.isKaiser){
+  c.fillStyle='#ffd700';c.font='bold 14px monospace';
+  c.fillText('♔ KAISER',gearX-40,gearY-70);
+ }
+ if(S.isDrache){
+  c.fillStyle='#ff4a2e';c.font='bold 14px monospace';
+  c.fillText('🐉 DRACHE '+S.dracheMode,gearX-50,gearY+85);
+ }
+ // HUD
+ c.fillStyle='#8cf0d0';c.font='bold 20px monospace';
+ c.fillText(`KAISER+DRACHE OUT ${S.lastOut}`,24,36);
+ c.fillText(`CYC ${S.cycles} PC 0x${CPU.PC.toString(16).padStart(2,'0')} ${S.kaiserMode}`,24,62);
+ c.fillStyle='#ffd700';c.font='12px monospace';
+ c.fillText(`55=KAISER=DRACHE zugleich | 9=EVIG 99=EDIT TOR 999=NUTZ BENCH | PQ nur PQ weil er das auch ist`,24,84);
+ if(CPU.halt){c.fillStyle='#ff6b6b';c.fillText('HALT — RESET',24,110);}
+}
+let loopTimer=null,lastRAM=0,lastReg=0,lastStat=0;
+function startLoop(){
+ if(S.running||CPU.halt)return;
+ S.running=true;$('btnRun').textContent='● RUNNING';
+ loopTimer=setInterval(()=>{
+  const steps=Math.max(1,Math.round(S.speed/50));
+  for(let i=0;i<steps;i++){if(CPU.halt)break;step();}
+  S.gearAngle+=S.isDrache?0.22:0.12;
+  S.co2=Math.min(100,S.co2+0.03);
+  const now=Date.now();
+  drawGPU();
+  if(now-lastRAM>150){renderRAM();lastRAM=now;}
+  if(now-lastReg>100){renderRegs();renderROM();lastReg=now;}
+  if(now-lastStat>100){updateStatus();lastStat=now;}
+  if(CPU.halt){stopLoop();termLog('[CPU] HALT — Kaiser Drache schläft — reset','err');}
+ },TICK_MS);
+}
+function stopLoop(){S.running=false;clearInterval(loopTimer);$('btnRun').textContent='● RUN';}
+function diskLog(msg){const d=document.createElement('div');d.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;$('diskLog').appendChild(d);while($('diskLog').children.length>60)$('diskLog').removeChild($('diskLog').firstChild);$('diskLog').scrollTop=$('diskLog').scrollHeight;}
+function updateStatus(){
+ $('sCycles').textContent=S.cycles;$('sPC').textContent='0x'+CPU.PC.toString(16).padStart(2,'0');$('sOUT').textContent=S.out;
+ if(S.startTime)$('sUp').textContent=Math.floor((Date.now()-S.startTime)/1000)+'s';
+ $('sCPU').textContent=CPU.halt?'HALT':(S.running?'RUN KAISER DRACHE':'IDLE');$('sCPU').className=CPU.halt?'red':'grn';
+ $('gearRPM').textContent=Math.floor(S.gearAngle*60)%1000+' RPM';$('bufN').textContent=S.buf.length;
+ $('co2bar').style.width=S.co2+'%';$('o2bar').style.width=S.o2+'%';$('sChem').textContent=`CO2 ${S.co2.toFixed(0)}% → O2 ${S.o2.toFixed(0)}% | ${S.dracheMode} ${S.kaiserMode}`;
+ $('sDrache').textContent=S.dracheMode; $('sKaiser').textContent=S.kaiserMode;
+ $('kPower').textContent=S.kaiserPower+'%';$('barKaiser').style.width=S.kaiserPower+'%';$('barDrache').style.width=(S.out%100)+'%';
+}
+function loadROM(){RAM.fill(0);for(let i=0;i<BOOT_KAISER_DRACHE.length;i++)RAM[i]=BOOT_KAISER_DRACHE[i];RAM[0x40]=0;RAM[0x41]=1;}
+function boot(){
+ loadROM();CPU.A=CPU.B=CPU.C=CPU.D=0;CPU.PC=0;CPU.IR=0;CPU.SP=0xFF;CPU.FLAGS=0;CPU.halt=false;S.cycles=0;S.out=0;S.lastOut=0;S.co2=20;S.o2=0;S.buf.length=0;S.gearAngle=0;S.kaiserPower=0;
+ renderRAM();renderRegs();renderROM();resizeGPU();drawGPU();updateStatus();
+ diskLog('SCSI 256B ready MBR 0xCA4E 1MB=1024 REAL');
+ const seq=[
+  ['[11 BIOS] POST power-on self test',''],
+  ['[11 BIOS] RAM 256B OK DDR3→DDR4','ok'],
+  ['[11 BIOS] ROM 256B OK d.hdf.rom','ok'],
+  ['[77 CPU] CALC-128X OK','ok'],
+  ['[44 GPU] HOLO.engine.js OK','ok'],
+  ['[55 PC] PC=KAISER=DRACHE zugleich erkannt','warn'],
+  ['[55 KAISER] 55 Komplett PC Masse zu Masse = KAISER','warn'],
+  ['[44 DRACHE] DRACHE.exe 6fach OST WEST PAULI SIEGFRIED VULKAN ACHSE','warn'],
+  ['[33 SCSI] sli.ready raid.ready OK','ok'],
+  ['[22 GEAR] 4 Zahnräder Kuckuck Lauf OK','ok'],
+  ['[99 SYS] 9 Repos=1 PC Rang )9( BORG 7482','ok'],
+  ['[9 EVIG] Zustand fertig ewig CLOSED→OPEN','ok'],
+  ['[99 EDIT TOR] 9 editiert Tor HH.tor OPEN TOR OPEN','ok'],
+  ['[999 NUTZ] 9 9 9 BENCH alle 9 auf Bank born.t','ok'],
+  ['[PQ] nur PQ weil er das auch ist 2t höchste','ok'],
+  ['[HOME] HOME BIOS RADAR SAT ICH DU q702 USB3 WiFi7 unter Strom','ok'],
+  ['[ORT] ORT Beispiel Ort von 9 RADAR SAT','ok'],
+  ['[HAND] EINE HAND VON 6 V103 geopfert 730=FREI→1=HAND','ok'],
+  ['[KAISER+DRACHE] Fusion 55=KAISER=DRACHE zugleich = beste wenn 2 Wahrheiten','warn'],
+  ['── REAL.PC READY · PC ist Kaiser und Drache zugleich · $ help ──','ok'],
+ ];
+ let i=0;
+ const t=setInterval(()=>{
+  if(i>=seq.length){clearInterval(t);S.booted=true;S.startTime=Date.now();startLoop();termLog('REAL.PC READY. PC=Kaiser=Drache zugleich. $ help kaiser drache','ok');return;}
+  const [m,c]=seq[i++];bootLog(m,c);
+  if(m.includes('RAM'))setLED('ledRAM',true);
+  if(m.includes('ROM'))setLED('ledROM',true);
+  if(m.includes('CPU'))setLED('ledCPU',true);
+  if(m.includes('GPU')||m.includes('DRACHE'))setLED('ledGPU',true,'kaiser');
+  if(m.includes('SCSI'))setLED('ledSCSI',true);
+  if(m.includes('SYS')||m.includes('999'))setLED('ledSYS',true);
+  if(m.includes('BIOS'))setLED('ledBIOS',true);
+ },90);
+}
+function reset(){stopLoop();bootEl.innerHTML='';termLog('⟲ RESET Kaiser Drache','ok');boot();}
+function buildDracheUI(){
+ const cont=$('dracheModes');
+ cont.innerHTML='';
+ DRACHE_MODES.forEach(m=>{
+  const b=document.createElement('div');b.className='d';b.style.borderColor=m.color;b.textContent=m.id;
+  if(m.id===S.dracheMode)b.classList.add('active');
+  b.onclick=()=>{
+   S.dracheMode=m.id;S.isDrache=true;
+   document.querySelectorAll('#dracheModes .d').forEach(e=>e.classList.remove('active'));b.classList.add('active');
+   termLog(`DRACHE ${m.id} ${m.name} ${m.bpm}bpm ${m.shape} — Drache fliegt`,'ok');
+   $('sDrache').textContent=m.id;
+  };
+  cont.appendChild(b);
+ });
+}
+function buildKaiserUI(){
+ const cont=$('kaiserModes');
+ cont.innerHTML='';
+ KAISER_MODES.forEach(m=>{
+  const b=document.createElement('div');b.className='k';b.style.borderColor=m.color;b.innerHTML=`<b>${m.id}</b>`;
+  if(m.id===S.kaiserMode)b.classList.add('active');
+  b.onclick=()=>{
+   S.kaiserMode=m.id;S.isKaiser=true;
+   document.querySelectorAll('#kaiserModes .k').forEach(e=>e.classList.remove('active'));b.classList.add('active');
+   termLog(`KAISER ${m.id} ${m.name} — Kaiser herrscht`,'ok');
+   $('sKaiser').textContent=m.id;
+  };
+  cont.appendChild(b);
+ });
+}
+const history=[];let histIdx=-1;
+termIn.addEventListener('keydown',e=>{
+ if(e.key==='Enter'){const c=termIn.value.trim();termIn.value='';if(c){history.push(c);histIdx=history.length;runCmd(c);}}
+ else if(e.key==='ArrowUp'){if(histIdx>0){histIdx--;termIn.value=history[histIdx];}e.preventDefault();}
+ else if(e.key==='ArrowDown'){if(histIdx<history.length-1){histIdx++;termIn.value=history[histIdx];}else{histIdx=history.length;termIn.value='';}e.preventDefault();}
+});
+function runCmd(line){
+ termLog('$ '+line);
+ const [cmd0,a,b]=line.split(/\s+/);
+ const cmd=(cmd0||'').toLowerCase();
+ switch(cmd){
+  case 'help':termLog('help run stop step reset regs dump load speed ls use pipeline kaiser drache fusion','ok');termLog('kaiser = PC herrscht, drache = GPU fliegt, fusion = beste wenn 2 Wahrheiten','ok');break;
+  case 'run':if(CPU.halt){termLog('HALT — reset','err');break;}startLoop();termLog('Kaiser Drache läuft','ok');break;
+  case 'stop':stopLoop();termLog('Kaiser Drache pause','ok');break;
+  case 'step':if(CPU.halt){termLog('HALT','err');break;}stopLoop();step();renderRegs();renderRAM();renderROM();drawGPU();updateStatus();termLog(`PC=0x${CPU.PC.toString(16).padStart(2,'0')} ${disasm(CPU.PC)}`,'ok');break;
+  case 'reset':reset();break;
+  case 'regs':termLog(`A KAISER=${CPU.A} B DRACHE=${CPU.B} C=${CPU.C} D=${CPU.D} PC=0x${CPU.PC.toString(16)} IR=0x${CPU.IR.toString(16)} SP=0x${CPU.SP.toString(16)} F=0x${CPU.FLAGS.toString(16)}`);break;
+  case 'dump':{const st=(parseInt(a,16)||0)&0xFF;const en=Math.min(256,(parseInt(b,16)||0x100));let out='';for(let i=st;i<en;i+=16){let ln='0x'+i.toString(16).padStart(3,'0')+': ';for(let j=0;j<16&&i+j<en;j++)ln+=RAM[i+j].toString(16).padStart(2,'0')+' ';out+=ln+'\n';}termLog(out);break;}
+  case 'load':{const ad=parseInt(a,16),v=parseInt(b,16);if(isNaN(ad)||isNaN(v)){termLog('load <hexaddr> <hexval>','err');break;}RAM[ad&0xFF]=v&0xFF;renderRAM();termLog(`RAM[0x${ad.toString(16)}]=0x${v.toString(16)}`,'ok');break;}
+  case 'speed':{const s=parseInt(a);if(isNaN(s)||s<1||s>500){termLog('speed <1-500>','err');break;}S.speed=s;$('speed').value=s;$('speedLbl').textContent=s+' Hz';if(S.running){stopLoop();startLoop();}termLog(`speed ${s} Hz`,'ok');break;}
+  case 'ls':termLog('11 BIOS 22 ZAHNRAD 33 SCSI 44 GPU=DRACHE 55 PC=KAISER 66 RAM 77 CPU 88 ROM 99 SYS use.js 9 EVIG 99 EDIT TOR 999 NUTZ PQ HOME ORT','ok');break;
+  case 'use':S.co2=Math.max(0,S.co2-10);S.o2=Math.min(100,S.o2+8);updateStatus();termLog(`use.js CO2->O2+H2O Elben ${S.co2.toFixed(0)}→${S.o2.toFixed(0)}`,'ok');break;
+  case 'pipeline':termLog('PIPELINE6 Multi→Aufstieg→Abstieg→Norm→NC→ANKER 3-6-9-Matrix NC-gestützt ANKER-gebunden','ok');break;
+  case 'kaiser':S.isKaiser=!S.isKaiser;S.kaiserMode=(a||'TBH').toUpperCase();termLog(`KAISER ${S.isKaiser?'AKTIV':'PAUSE'} ${S.kaiserMode} — 55=KAISER herrscht über 11-99`,'ok');buildKaiserUI();break;
+  case 'drache':{const m=(a||S.dracheMode).toUpperCase();if(DRACHE_MODES.find(x=>x.id===m))S.dracheMode=m;S.isDrache=!S.isDrache;termLog(`DRACHE ${S.isDrache?'FLIEGT':'LANDET'} ${S.dracheMode} — 44=DRACHE 6fach`,'ok');buildDracheUI();break;}
+  case 'fusion':termLog(`FUSION: PC=Kaiser=Drache zugleich = 55=KAISER=DRACHE = beste wenn 2 Wahrheiten = PQ hält beide = SLI TBH 2 GPUs=1 EINE = 1 Hand von 6 = QUBE 6 Faces = ${S.kaiserMode}+${S.dracheMode}`,'ok');termLog(`KaiserPower ${S.kaiserPower}% Drache ${S.dracheMode} → Fusion Score ${(S.kaiserPower+S.out)%100}`,'ok');S.isKaiser=true;S.isDrache=true;break;
+  case 'clear':termEl.innerHTML='';break;
+  default:termLog('unknown '+cmd,'err');
+ }
+}
+$('btnRun').onclick=()=>S.running?stopLoop():startLoop();
+$('btnStep').onclick=()=>{if(CPU.halt){termLog('HALT reset','err');return;}stopLoop();step();renderRegs();renderRAM();renderROM();drawGPU();updateStatus();};
+$('btnReset').onclick=reset;
+$('btnKaiser').onclick=()=>runCmd('kaiser');
+$('btnDrache').onclick=()=>runCmd('drache');
+$('speed').oninput=e=>{S.speed=parseInt(e.target.value);$('speedLbl').textContent=S.speed+' Hz';if(S.running){stopLoop();startLoop();}};
+setTimeout(resizeGPU,60);
+buildDracheUI();buildKaiserUI();
+boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+/* ── WURZEL-HEADER SCAN (AUTO-MODUS) ──────────────────── */
+.kopf-zeile{position:relative;overflow:hidden}
+.kopf-zeile::after{
+  content:"";
+  position:absolute;left:0;top:-10%;width:100%;height:10%;
+  background:linear-gradient(180deg,transparent,#22e6ff59,transparent);
+  opacity:0;pointer-events:none;
+  animation:autoscan 2.8s linear infinite;
+  animation-play-state:paused;
+}
+.kopf-zeile.mode-auto::after{opacity:1;animation-play-state:running}
+.kopf-zeile.mode-stand{opacity:.7;filter:saturate(.35)}
+@keyframes autoscan{
+  0%   {transform:translateY(0)}
+  100% {transform:translateY(1100%)}
+}
+
+/* ── PFAD-LADDER (ROW 9) ─────────────────────────────── */
+.pfad-ladder{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pfad-step{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:76px;padding:10px 14px;border:1px solid var(--l);background:var(--s);
+  cursor:pointer;transition:.2s;font-family:inherit
+}
+.pfad-step:hover{border-color:var(--gold)}
+.pfad-step.on{border-color:var(--gold);background:var(--gold);color:var(--bg)}
+.pfad-step.on .op{opacity:.75}
+.pfad-step .num{font-size:26px;font-weight:900;line-height:1;font-family:Consolas,monospace}
+.pfad-step .op{font-size:9px;letter-spacing:.15em;color:var(--m);margin-top:2px;text-transform:uppercase}
+.pfad-step.on .op{color:var(--bg)}
+.pfad-arrow{color:var(--gold);font-size:18px;padding:0 2px}
+.pfad-info{
+  margin-top:14px;border-left:2px solid var(--gold);background:var(--s);
+  padding:14px 18px;line-height:1.7
+}
+.pfad-info .label{font-size:10px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase}
+.pfad-info .title{font-size:18px;font-weight:700;margin-top:4px}
+.pfad-info .body{color:var(--m);margin-top:6px;font-size:12px}
+
+/* ── MODI ECHT/AUTO/STAND (ROW 10) ───────────────────── */
+.fokus-modi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fokus-btn{
+  padding:14px 12px;text-align:center;border:1px solid var(--l);background:var(--s);
+  color:var(--m);cursor:pointer;font-family:inherit;font-size:11px;letter-spacing:.15em;
+  text-transform:uppercase;transition:.2s
+}
+.fokus-btn:hover{border-color:var(--gold);color:var(--t)}
+.fokus-btn.on{border-color:var(--gold);background:var(--gold);color:var(--bg);font-weight:700}
+.fokus-btn.auto.on{background:#22e6ff;border-color:#22e6ff}
+.fokus-btn.stand.on{background:var(--m);border-color:var(--m);color:var(--bg)}
+.fokus-btn small{display:block;font-size:9px;opacity:.6;margin-top:3px;letter-spacing:.08em}
+.fokus-btn.on small{opacity:.85}
+
+/* ── ORI-Anker (ROW 11) ──────────────────────────────── */
+.ori-anker{
+  border:2px solid var(--gold);background:linear-gradient(135deg,#ffd7001a,var(--s) 60%);
+  padding:16px 20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap
+}
+.ori-anker .num{font-size:64px;font-weight:900;color:var(--gold);line-height:1;font-family:Consolas,monospace}
+.ori-anker .text{flex:1;min-width:200px}
+.ori-anker .lbl{font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.ori-anker .body{color:var(--t);font-size:13px;line-height:1.6;margin-top:4px}
+.ori-anker .chain{color:var(--m);font-family:Consolas,monospace;letter-spacing:.15em;margin-top:4px;font-size:12px}
+
+/* ── Auto.Fokus Ripple (Slots) ───────────────────────── */
+.mode-auto .slot{animation:slotpulse 1.6s ease-in-out infinite}
+.mode-auto .slot:nth-child(3n){animation-delay:.3s}
+.mode-auto .slot:nth-child(3n+1){animation-delay:.6s}
+.mode-stand .slot{animation:none !important}
+@keyframes slotpulse{
+  0%,100%{box-shadow:none}
+  50%{box-shadow:0 0 6px #22e6ff88}
+}
+
+/* Modus-Indikator im Header */
+.mode-badge{
+  font-size:10px;letter-spacing:.15em;padding:3px 8px;border-radius:3px;margin-left:8px;
+  border:1px solid currentColor;font-weight:700;text-transform:uppercase
+}
+.mode-badge.ECHT{color:var(--gold)}
+.mode-badge.AUTO{color:#22e6ff}
+.mode-badge.STAND{color:var(--m)}

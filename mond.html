@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GENTECH-MOND · NATURUMLAUF · NC.SUITE</title>
+<style>
+:root{--bg:#030507;--s:#0a1018;--l:#1b2a3a;--t:#d7e2ee;--m:#7d90a4;
+      --gold:#ffd24a;--cy:#22e6ff;--vi:#a78bfa;--g:#3dffa0;--r:#ff5a4d;
+      --home:#4da3ff;--ort:#f0b429;--pruef:#e5534b}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Consolas,monospace}
+body{background:var(--bg);color:var(--t);max-width:1200px;margin:auto;padding:14px;
+  background-image:radial-gradient(circle at 50% 0%,rgba(34,230,255,.05),transparent 70%)}
+
+/* NC HEADER */
+.kopf-zeile{position:sticky;top:0;z-index:9999;background:rgba(5,5,7,.95);
+  border-bottom:2px solid var(--gold);margin-bottom:14px}
+.kopf-inner{display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:10px;flex-wrap:wrap}
+.kopf-brand{color:var(--gold);font-weight:900;letter-spacing:.08em}
+.kopf-nav{display:flex;gap:6px;flex-wrap:wrap}
+.kopf-nav a{color:var(--cy);text-decoration:none;border:1px solid var(--l);
+  padding:4px 10px;font-size:12px;transition:.15s}
+.kopf-nav a:hover{border-color:var(--gold)}
+.kopf-nav a.active{background:var(--gold);color:#000;font-weight:700}
+.kopf-state{color:var(--g);border:1px solid var(--g);padding:4px 8px;font-size:11px;
+  letter-spacing:.1em;transition:.2s}
+.kopf-state.warn{color:var(--gold);border-color:var(--gold)}
+.kopf-state.bad{color:var(--r);border-color:var(--r)}
+.mobile-nav{display:none;width:100%;padding:0 10px 10px}
+#mobile-toggle{width:100%;background:#050507;color:var(--gold);border:1px solid var(--gold);
+  padding:10px;font-weight:700;cursor:pointer;font-family:inherit}
+#mobile-panel{display:none;margin-top:4px;border:1px solid var(--l)}
+#mobile-panel.open{display:grid}
+#mobile-panel a{text-decoration:none;color:var(--cy);padding:10px;
+  border-bottom:1px solid var(--l);font-size:13px}
+#mobile-panel a.active{background:var(--gold);color:#000;font-weight:700}
+
+/* APP */
+main{display:block}
+h1{color:var(--gold);margin-bottom:6px;font-size:24px;letter-spacing:.02em}
+.sub{color:var(--m);margin-bottom:16px;font-size:12px;line-height:1.6}
+section{margin-bottom:16px}
+h2{color:var(--cy);font-size:11px;letter-spacing:.14em;margin-bottom:10px}
+
+/* CANVAS WRAPPER */
+.moon-wrapper{background:var(--s);border:1px solid var(--l);border-radius:12px;
+  padding:10px;margin-bottom:16px;position:relative;overflow:hidden}
+canvas#mond-canvas{display:block;width:100%;height:400px;
+  background:radial-gradient(circle at center, #060d14 0%, #030507 100%);border-radius:8px}
+
+/* CONTROLS */
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.controls button{background:var(--s);border:1px solid var(--l);padding:8px 16px;
+  color:var(--t);font:inherit;font-size:12px;cursor:pointer;border-radius:4px;transition:.15s}
+.controls button:hover{border-color:var(--gold);color:var(--gold)}
+.controls button.primary{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700}
+.controls button.primary:hover{background:#ffd24a;box-shadow:0 0 15px rgba(255,210,74,.2)}
+.controls input[type="range"]{flex:1;min-width:150px;accent-color:var(--gold);background:transparent}
+
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.box{background:var(--s);border:1px solid var(--l);padding:14px;border-radius:6px}
+.box h3{font-size:11px;color:var(--m);letter-spacing:.1em;margin-bottom:8px}
+.box .val{font-size:16px;font-weight:700;color:var(--gold)}
+.box .val.cy{color:var(--cy)}
+.box .val.gr{color:var(--g)}
+
+/* LOG */
+.log{background:#060b11;border:1px solid var(--l);padding:10px;font-size:11px;
+  color:var(--m);height:120px;overflow-y:auto;line-height:1.7}
+.log div{border-bottom:1px solid #0f1720;padding:2px 0}
+
+footer{margin-top:24px;border-top:1px solid var(--l);padding-top:10px;
+  color:#6e8091;font-size:11px;display:flex;justify-content:space-between;
+  flex-wrap:wrap;gap:8px}
+
+@media(max-width:760px){
+  .kopf-nav{display:none}.mobile-nav{display:block}
+  .info-grid{grid-template-columns:1fr}
+  canvas#mond-canvas{height:300px}
+}
+</style>
+</head>
+<body>
+
+<header class="kopf-zeile">
+  <div class="kopf-inner">
+    <div class="kopf-brand">● NC.SUITE</div>
+    <nav class="kopf-nav">
+      <a href="./index.html">INDEX</a>
+      <a href="./home.html">HOME</a>
+      <a href="./ort.html">ORT</a>
+      <a href="./alles.html">ALLES</a>
+      <a href="./nc-suite.html">KERN</a>
+      <a href="./generator.html">GENERATOR</a>
+      <a href="./continuum.html">CONTINUUM</a>
+      <a href="./mond.html" class="active">MOND</a>
+    </nav>
+    <div class="kopf-state" id="brain-state">● BRAIN.EYE.OPEN</div>
+  </div>
+  <div class="mobile-nav">
+    <button id="mobile-toggle" type="button">☰ NODE : MOND</button>
+    <nav id="mobile-panel">
+      <a href="./index.html">INDEX</a>
+      <a href="./home.html">HOME</a>
+      <a href="./ort.html">ORT</a>
+      <a href="./alles.html">ALLES</a>
+      <a href="./nc-suite.html">KERN</a>
+      <a href="./generator.html">GENERATOR</a>
+      <a href="./continuum.html">CONTINUUM</a>
+      <a href="./mond.html" class="active">MOND</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-header">
+    <h1>GENTECH-MOND · NATURUMLAUF</h1>
+    <p class="sub">Der Mond umkreist den Kern. Jede Umrundung ist ein TMP-Schritt (81). 9 Räume = 9 Gene. Alles ist live mit dem Wurzel-State verbunden.</p>
+  </section>
+
+  <div class="moon-wrapper">
+    <canvas id="mond-canvas"></canvas>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="toggleBtn" onclick="toggleOrbit()">⏸ PAUSE</button>
+    <input type="range" id="speedRange" min="0.1" max="5" step="0.1" value="1">
+    <span style="font-size:11px;color:var(--m);align-self:center;">Geschwindigkeit</span>
+    <button onclick="resetOrbit()">↺ RESET</button>
+  </div>
+
+  <div class="info-grid">
+    <div class="box">
+      <h3>AKTIVES GEN (RAUM)</h3>
+      <div class="val" id="currentGene">111 · BIOS</div>
+    </div>
+    <div class="box">
+      <h3>UMLAUF (TMP)</h3>
+      <div class="val cy" id="currentOrbit">0 / 729</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>LOG · GENETISCHER FLUSS</h2>
+    <div class="log" id="log"></div>
+  </section>
+</main>
+
+<footer>
+  <span>© NC.SUITE · GENTECH-MOND · NATURUMLAUF</span>
+  <span style="color:var(--cy);opacity:.7">state sync via wurzel-state.js</span>
+</footer>
+
+<script src="wurzel-state.js"></script>
+<script>
+// ── DATEN ──────────────────────────────────────────────────
+const ROOMS = [
+  {code:'111', name:'BIOS', desc:'Basic Input Output System'},
+  {code:'222', name:'VERBUND', desc:'Die Verbindung'},
+  {code:'333', name:'RECALL', desc:'Rückruf / Wiederholung'},
+  {code:'444', name:'PEAK', desc:'Höhepunkt'},
+  {code:'555', name:'ABWEHR', desc:'Abwehrkräfte'},
+  {code:'666', name:'ENERGIE', desc:'Energiefluss'},
+  {code:'777', name:'CO2', desc:'Atmung / Austausch'},
+  {code:'888', name:'ATOM', desc:'Atomarer Kern'},
+  {code:'999', name:'BENCH', desc:'Die Bank / Ruhe'}
+];
+
+// ── STATE ──────────────────────────────────────────────────
+let angle = 0;
+let isPlaying = true;
+let speed = 1;
+let lastGeneIndex = -1;
+let lastTmpValue = -1;
+let logEntries = ['Mond initialisiert. Naturumlauf gestartet.'];
+
+const canvas = document.getElementById('mond-canvas');
+const ctx = canvas.getContext('2d');
+let width, height, cx, cy, radius;
+
+function resize() {
+  const rect = canvas.getBoundingClientRect();
+  width = canvas.width = rect.width;
+  height = canvas.height = rect.height;
+  cx = width / 2;
+  cy = height / 2;
+  radius = Math.min(cx, cy) * 0.7;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ── LOG ────────────────────────────────────────────────────
+function pushLog(msg) {
+  logEntries.unshift(msg);
+  if(logEntries.length > 15) logEntries.pop();
+  document.getElementById('log').innerHTML = logEntries.map(m => `<div>› ${m}</div>`).join('');
+}
+
+// ── ZEICHNEN (Der Naturumlauf) ─────────────────────────────
+function draw() {
+  ctx.clearRect(0, 0, width, height);
+
+  const Z = window.WURZEL_STATE ? WURZEL_STATE.zustand() : {HOME:'OPEN', ORT:'GEWÄHLT', PRUEF:'RICHTIG'};
+  const tmp = window.WURZEL_STATE ? WURZEL_STATE.tmp() : 0;
+
+  // 1. Orbit-Ringe zeichnen (3 Ebenen: 9, 81, 729)
+  for(let i=1; i<=3; i++) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * (i/3), 0, Math.PI * 2);
+    ctx.strokeStyle = i === 3 ? 'rgba(255,210,74,0.3)' : 'rgba(27,42,58,0.8)';
+    ctx.lineWidth = i === 3 ? 2 : 1;
+    ctx.stroke();
+  }
+
+  // 2. Die 9 Gene (Räume) als Punkte auf dem äußeren Ring
+  const baseAngleStep = (Math.PI * 2) / 9;
+  for(let i=0; i<9; i++) {
+    const a = i * baseAngleStep - Math.PI / 2;
+    const px = cx + Math.cos(a) * radius;
+    const py = cy + Math.sin(a) * radius;
+    
+    ctx.beginPath();
+    ctx.arc(px, py, i === lastGeneIndex ? 6 : 3, 0, Math.PI * 2);
+    ctx.fillStyle = i === lastGeneIndex ? '#ffd24a' : '#22e6ff';
+    ctx.fill();
+
+    // Kleine Verbindungslinien zum Kern
+    if(i === lastGeneIndex) {
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(px, py);
+      ctx.strokeStyle = 'rgba(255,210,74,0.5)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+
+  // 3. Der Mond (Gentech-Mond) auf dem inneren Ring
+  const moonAngle = angle;
+  const moonRadius = radius * 0.5; // Mond kreist in der Mitte
+  const mx = cx + Math.cos(moonAngle) * moonRadius;
+  const my = cy + Math.sin(moonAngle) * moonRadius;
+
+  // Mond-Schatten/Glow (Pulsierend basierend auf TMP)
+  const pulse = 1 + Math.sin(Date.now() / 500) * 0.1;
+  const gradient = ctx.createRadialGradient(mx, my, 2, mx, my, 20 * pulse);
+  gradient.addColorStop(0, '#ffffff');
+  gradient.addColorStop(0.4, '#22e6ff');
+  gradient.addColorStop(1, 'transparent');
+  
+  ctx.beginPath();
+  ctx.arc(mx, my, 20 * pulse, 0, Math.PI * 2);
+  ctx.fillStyle = gradient;
+  ctx.fill();
+
+  // Mond-Kern
+  ctx.beginPath();
+  ctx.arc(mx, my, 8, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffd24a';
+  ctx.fill();
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // 4. Die Zentrale Sonne (Wurzel-Kern)
+  const sunGrad = ctx.createRadialGradient(cx, cy, 5, cx, cy, 30);
+  sunGrad.addColorStop(0, '#ffffff');
+  sunGrad.addColorStop(0.5, Z.PRUEF === 'FEHLER' ? '#ff5a4d' : '#3dffa0');
+  sunGrad.addColorStop(1, 'transparent');
+  
+  ctx.beginPath();
+  ctx.arc(cx, cy, 30, 0, Math.PI * 2);
+  ctx.fillStyle = sunGrad;
+  ctx.fill();
+
+  // 5. Text-Overlay (Gentech-Daten)
+  ctx.fillStyle = 'rgba(215,226,238,0.6)';
+  ctx.font = '10px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('GENTECH-MOND', cx, cy - radius - 10);
+  ctx.fillText('TMP: ' + tmp, cx, cy + radius + 20);
+}
+
+// ── UPDATE LOGIK ───────────────────────────────────────────
+function update() {
+  if(isPlaying) {
+    angle += 0.01 * speed;
+    if(angle > Math.PI * 2) angle -= Math.PI * 2;
+  }
+
+  // Welches Gen (Raum) wird gerade passiert?
+  const geneIndex = Math.floor(angle / ((Math.PI * 2) / 9));
+  
+  if(geneIndex !== lastGeneIndex) {
+    lastGeneIndex = geneIndex;
+    const room = ROOMS[geneIndex];
+    
+    // State update: Setze den Raum als aktiv
+    if(window.WURZEL_STATE) {
+      const slot = geneIndex * 9;
+      WURZEL_STATE._S.activeSlot = slot;
+      WURZEL_STATE.slotSet(slot, true);
+    }
+    
+    document.getElementById('currentGene').textContent = room.code + ' · ' + room.name;
+    pushLog(`Gentech-Mond liest Gen: ${room.code} ${room.name} (${room.desc})`);
+  }
+
+  // Jede volle Umrundung = TMP Schritt
+  if(Math.floor(angle / (Math.PI * 2)) !== Math.floor((angle - 0.01 * speed) / (Math.PI * 2))) {
+    if(window.WURZEL_STATE) {
+      WURZEL_STATE.tmpStep();
+      const tmp = WURZEL_STATE.tmp();
+      document.getElementById('currentOrbit').textContent = tmp + ' / 729';
+      pushLog(`Umlauf abgeschlossen. TMP auf ${tmp} erhöht.`);
+    }
+  }
+
+  // Header State aktualisieren
+  if(window.WURZEL_STATE) {
+    const Z = WURZEL_STATE.zustand();
+    const hs = document.getElementById('brain-state');
+    if(Z.PRUEF === 'FEHLER' || Z.HOME === 'CLOSED' || Z.ORT === 'LEER'){
+      hs.textContent = '● BRAIN.EYE.CLOSED'; hs.className = 'kopf-state bad';
+    } else if(Z.PRUEF === 'UNGEPRUEFT' || Z.HOME === 'OPEN' || Z.ORT === 'GEWÄHLT'){
+      hs.textContent = '● BRAIN.EYE.WAIT'; hs.className = 'kopf-state warn';
+    } else {
+      hs.textContent = '● BRAIN.EYE.OPEN'; hs.className = 'kopf-state';
+    }
+  }
+
+  draw();
+  requestAnimationFrame(update);
+}
+
+// ── CONTROLS ───────────────────────────────────────────────
+function toggleOrbit() {
+  isPlaying = !isPlaying;
+  document.getElementById('toggleBtn').textContent = isPlaying ? '⏸ PAUSE' : '▶ START';
+  pushLog(isPlaying ? 'Naturumlauf gestartet.' : 'Naturumlauf pausiert.');
+}
+
+function resetOrbit() {
+  angle = 0;
+  lastGeneIndex = -1;
+  pushLog('Naturumlauf zurückgesetzt.');
+  if(window.WURZEL_STATE) {
+    WURZEL_STATE._S.activeSlot = null;
+    WURZEL_STATE.tmpSet(0);
+  }
+}
+
+document.getElementById('speedRange').addEventListener('input', (e) => {
+  speed = parseFloat(e.target.value);
+});
+
+// ── NAV ────────────────────────────────────────────────────
+const current = (location.pathname.split('/').pop()||'index').replace('.html','').toLowerCase();
+document.querySelectorAll('.kopf-nav a, #mobile-panel a').forEach(a=>{
+  const target = a.getAttribute('href').replace('./','').replace('.html','').toLowerCase();
+  if(current === target || (current === '' && target === 'index')) a.classList.add('active');
+});
+const mt = document.getElementById('mobile-toggle');
+const mp = document.getElementById('mobile-panel');
+mt.textContent = '☰ NODE : ' + (current === 'index' ? 'INDEX' : current.toUpperCase());
+mt.onclick = () => mp.classList.toggle('open');
+
+// ── INIT ───────────────────────────────────────────────────
+update();
+</script>
+</body>
+</html>

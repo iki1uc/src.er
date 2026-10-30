@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CONTINUUM · SRC.ER · NC.SUITE</title>
+<style>
+:root{--bg:#030507;--s:#0a1018;--l:#1b2a3a;--t:#d7e2ee;--m:#7d90a4;--gold:#ffd24a;--cy:#22e6ff;--vi:#a78bfa;--g:#3dffa0;--r:#ff5a4d}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Consolas,monospace}
+body{background:var(--bg);color:var(--t);max-width:1300px;margin:auto;padding:14px}
+.kopf-zeile{position:sticky;top:0;z-index:9999;background:rgba(5,5,7,.95);border-bottom:2px solid var(--gold);margin-bottom:14px}
+.kopf-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px;flex-wrap:wrap}
+.kopf-brand{color:var(--gold);font-weight:900;letter-spacing:.08em}
+.kopf-nav{display:flex;gap:6px;flex-wrap:wrap}
+.kopf-nav a{color:var(--cy);text-decoration:none;border:1px solid var(--l);padding:4px 10px;font-size:12px;transition:.15s}
+.kopf-nav a:hover{border-color:var(--gold)}
+.kopf-nav a.active{background:var(--gold);color:#000;font-weight:700}
+.kopf-state{color:var(--g);border:1px solid var(--g);padding:4px 8px;font-size:11px;letter-spacing:.1em}
+.kopf-state.warn{color:var(--gold);border-color:var(--gold)}
+.kopf-state.bad{color:var(--r);border-color:var(--r)}
+.mobile-nav{display:none;width:100%;padding:0 10px 10px}
+#mobile-toggle{width:100%;background:#050507;color:var(--gold);border:1px solid var(--gold);padding:10px;font-weight:700;cursor:pointer;font-family:inherit}
+#mobile-panel{display:none;margin-top:4px;border:1px solid var(--l)}
+#mobile-panel.open{display:grid}
+#mobile-panel a{text-decoration:none;color:var(--cy);padding:10px;border-bottom:1px solid var(--l);font-size:13px}
+#mobile-panel a.active{background:var(--gold);color:#000;font-weight:700}
+h1{color:var(--gold);margin-bottom:6px;font-size:24px}
+.sub{color:var(--m);margin-bottom:16px;font-size:12px;line-height:1.6}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.controls input{background:var(--s);border:1px solid var(--l);padding:8px 12px;color:var(--t);font:inherit;font-size:12px;border-radius:4px;flex:1;min-width:150px}
+.controls button{background:var(--s);border:1px solid var(--l);padding:8px 16px;color:var(--t);font:inherit;font-size:12px;cursor:pointer;border-radius:4px}
+.controls button:hover{border-color:var(--gold);color:var(--gold)}
+.controls button.primary{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}
+.stat{background:var(--s);border:1px solid var(--l);padding:12px;text-align:center;border-radius:6px}
+.stat .val{font-size:22px;font-weight:700;color:var(--gold)}
+.stat .lbl{font-size:10px;color:var(--m);margin-top:4px}
+.repo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.repo-card{background:var(--s);border:1px solid var(--l);padding:12px;border-radius:6px;transition:.15s}
+.repo-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.repo-card .top{display:flex;justify-content:space-between}
+.repo-card .name{font-size:13px;font-weight:700}
+.repo-card .badge{font-size:9px;padding:2px 6px;border-radius:4px;background:#151d28;border:1px solid var(--l);color:var(--m)}
+.repo-card .badge.today{color:var(--cy);border-color:var(--cy)}
+.repo-card .meta{display:flex;justify-content:space-between;font-size:10px;color:var(--m);margin-top:4px}
+.repo-card .link{margin-top:8px;font-size:10px;color:var(--cy);text-decoration:none;border-top:1px solid #0f1720;padding-top:6px;display:block}
+footer{margin-top:24px;border-top:1px solid var(--l);padding-top:10px;color:#6e8091;font-size:11px;display:flex;justify-content:space-between}
+@media(max-width:760px){.kopf-nav{display:none}.mobile-nav{display:block}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="kopf-zeile">
+  <div class="kopf-inner">
+    <div class="kopf-brand">● NC.SUITE</div>
+    <nav class="kopf-nav">
+      <a href="./index.html">INDEX</a>
+      <a href="./home.html">HOME</a>
+      <a href="./ort.html">ORT</a>
+      <a href="./alles.html">ALLES</a>
+      <a href="./nc-suite.html">KERN</a>
+      <a href="./generator.html">GENERATOR</a>
+      <a href="./continuum.html" class="active">CONTINUUM</a>
+    </nav>
+    <div class="kopf-state" id="brain-state">● BRAIN.EYE.OPEN</div>
+  </div>
+  <div class="mobile-nav">
+    <button id="mobile-toggle" type="button">☰ NODE : CONTINUUM</button>
+    <nav id="mobile-panel">
+      <a href="./index.html">INDEX</a>
+      <a href="./home.html">HOME</a>
+      <a href="./ort.html">ORT</a>
+      <a href="./alles.html">ALLES</a>
+      <a href="./nc-suite.html">KERN</a>
+      <a href="./generator.html">GENERATOR</a>
+      <a href="./continuum.html" class="active">CONTINUUM</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <h1>CONTINUUM · SRC.ER</h1>
+  <p class="sub">new.world.continuum.suite · un.all all.un src und src.er · 50 Repos heute bearbeitet - Pipeline/Pumpe/Katapult -> Panel quer Regel aktiv</p>
+  <section class="controls">
+    <input type="text" id="search" placeholder="Suche (Taste / ) ..." autocomplete="off">
+    <button onclick="filterRepos()">Suchen</button>
+    <button class="primary" onclick="loadToday()">Heute laden</button>
+    <button onclick="exportCSV()">CSV Export</button>
+  </section>
+  <section class="stats">
+    <div class="stat"><div class="val" id="stat-total">50</div><div class="lbl">Gesamt Repos</div></div>
+    <div class="stat" style="color:var(--cy)"><div class="val" id="stat-today" style="color:var(--cy)">50</div><div class="lbl">Heute bearbeitet</div></div>
+    <div class="stat"><div class="val">0</div><div class="lbl">ORI heute</div></div>
+    <div class="stat"><div class="val" style="color:var(--g)">50</div><div class="lbl">Grün</div></div>
+    <div class="stat"><div class="val" style="color:var(--gold)">0</div><div class="lbl">Gelb</div></div>
+    <div class="stat"><div class="val" style="color:var(--r)">0</div><div class="lbl">Rot</div></div>
+  </section>
+  <section><h2 style="color:var(--cy);font-size:11px;letter-spacing:.14em;margin-bottom:10px">50 Repos heute bearbeitet - 30.10.2026 (Berlin)</h2><div class="repo-grid" id="repo-grid"></div></section>
+</main>
+<footer><span>© NC.SUITE · WURZEL ×3 · CONTINUUM · SRC.ER</span><span style="color:var(--cy);opacity:.7">state sync via wurzel-state.js · axi B/H/T frei wählbar</span></footer>
+<script src="wurzel-state.js"></script>
+<script>
+const REPOS = [
+  {name:"index.html", time:"15:40", lang:"HTML", size:"136 KB"},{name:"GEIST", time:"15:05", lang:"HTML", size:"157 KB"},
+  {name:"csv.wep.html", time:"14:59", lang:"HTML", size:"79 KB"},{name:"auto.scan.fokus.html", time:"14:56", lang:"HTML", size:"346 KB"},
+  {name:"81.auto.stand.html", time:"14:53", lang:"HTML", size:"6 KB"},{name:"81.auto.html", time:"14:51", lang:"HTML", size:"291 KB"},
+  {name:"CYL", time:"14:35", lang:"HTML", size:"163 KB"},{name:"hh.berlin.index.html", time:"14:31", lang:"HTML", size:"94 KB"},
+  {name:"eco.count", time:"14:27", lang:"HTML", size:"98 KB"},{name:"sprung.9.html", time:"14:24", lang:"HTML", size:"92 KB"},
+  {name:"os.rein.html", time:"14:21", lang:"HTML", size:"120 KB"},{name:"CAPTURE", time:"14:19", lang:"HTML", size:"77 KB"},
+  {name:"81.real.html", time:"14:16", lang:"HTML", size:"299 KB"},{name:"COACH", time:"14:14", lang:"HTML", size:"122 KB"},
+  {name:"atem.dir", time:"14:10", lang:"HTML", size:"170 KB"},{name:"Corridoor.html", time:"14:08", lang:"HTML", size:"1841 KB"},
+  {name:"b.i.o", time:"14:05", lang:"HTML", size:"282 KB"},{name:"BIOS", time:"14:04", lang:"HTML", size:"393 KB"},
+  {name:"BIO", time:"14:01", lang:"HTML", size:"233 KB"},{name:"HOME", time:"13:54", lang:"HTML", size:"43 KB"},
+  {name:"ORT", time:"13:52", lang:"HTML", size:"124 KB"},{name:"doch", time:"13:51", lang:"HTML", size:"84 KB"},
+  {name:"sam.dir.html", time:"13:48", lang:"HTML", size:"96 KB"},{name:"grab.ber.html", time:"13:30", lang:"HTML", size:"192 KB"},
+  {name:"HTML.os", time:"13:23", lang:"HTML", size:"104 KB"},{name:"CycOS.HTML", time:"13:20", lang:"HTML", size:"146 KB"},
+  {name:"SIZER.ctrl", time:"13:18", lang:"HTML", size:"226 KB"},{name:"sys.index.html", time:"13:13", lang:"HTML", size:"94 KB"},
+  {name:"bridge.log.html", time:"13:10", lang:"HTML", size:"207 KB"},{name:"NOT.so.BAD", time:"13:07", lang:"HTML", size:"201 KB"},
+  {name:"OS_CORE", time:"13:05", lang:"HTML", size:"135 KB"},{name:"SHOW.live", time:"13:03", lang:"HTML", size:"479 KB"},
+  {name:"u.ROOM", time:"13:01", lang:"HTML", size:"516 KB"},{name:"ROOM.C", time:"12:58", lang:"HTML", size:"70 KB"},
+  {name:"files", time:"12:55", lang:"HTML", size:"139 KB"},{name:"fail.rate.html", time:"12:51", lang:"HTML", size:"379 KB"},
+  {name:"auto.reset.on", time:"12:48", lang:"HTML", size:"256 KB"},{name:"econmy", time:"12:47", lang:"HTML", size:"251 KB"},
+  {name:"ECOTAAL", time:"12:45", lang:"HTML", size:"137 KB"},{name:"ECO", time:"12:44", lang:"HTML", size:"268 KB"},
+  {name:"our.brain", time:"12:43", lang:"HTML", size:"16685 KB"},{name:"rom.scan", time:"12:37", lang:"HTML", size:"100 KB"},
+  {name:"check.rom", time:"12:34", lang:"HTML", size:"488 KB"},{name:"ram.drive", time:"12:31", lang:"HTML", size:"367 KB"},
+  {name:"max.rom", time:"12:29", lang:"HTML", size:"198 KB"},{name:"MAINBOARD", time:"12:27", lang:"HTML", size:"423 KB"},
+  {name:"MAIN", time:"12:26", lang:"HTML", size:"1176 KB"},{name:"ALLES.html", time:"12:24", lang:"HTML", size:"238 KB"},
+  {name:"6a6y6out", time:"12:21", lang:"HTML", size:"320 KB"},{name:"nix.ram", time:"12:13", lang:"HTML", size:"235 KB"}
+];
+const mt=document.getElementById('mobile-toggle');const mp=document.getElementById('mobile-panel');
+mt.onclick=()=>mp.classList.toggle('open');
+function render(repos){
+  document.getElementById('repo-grid').innerHTML = repos.map(r=>`
+    <div class="repo-card"><div class="top"><span class="name">${r.name}</span><span class="badge today">HEUTE ${r.time}</span></div>
+    <div class="meta"><span>${r.lang}</span><span>Push: 30.10.2026 ${r.time}</span></div>
+    <div class="meta"><span>★ 0 · ${r.size} · axi B/H/T frei</span></div>
+    <a class="link" href="https://github.com/iki1uc/${r.name}" target="_blank">auf GitHub öffnen ↗</a></div>`).join('');
+}
+function filterRepos(){const q=document.getElementById('search').value.toLowerCase();render(REPOS.filter(r=>r.name.toLowerCase().includes(q)));}
+function loadToday(){render(REPOS); if(window.WURZEL_STATE){WURZEL_STATE.set('HOME',2);WURZEL_STATE.set('ORT',1);WURZEL_STATE.set('PRUEF',1);}}
+function exportCSV(){let csv="Name,Time,Language,Size\n";REPOS.forEach(r=>{csv+=`"${r.name}","${r.time}","${r.lang}","${r.size}"\n`;});const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='continuum_repos_2026-10-30.csv';a.click();}
+document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==document.getElementById('search')){e.preventDefault();document.getElementById('search').focus();}});
+render(REPOS);
+</script>
+</body>
+</html>
